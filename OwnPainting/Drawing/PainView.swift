@@ -91,7 +91,7 @@ final class PaintView: UIView {
     // TODO: Presenterに移動
     
     internal var paintType: PaintType = .freehand
-    internal var drawingObjects: DrawingObject? {
+    internal var drawingObjects: Drawing? {
         didSet {
             guard let drawingObjects = drawingObjects else {
                 return
@@ -99,73 +99,68 @@ final class PaintView: UIView {
             for object in drawingObjects.shapes {
                 let layer = PaintLayer()
                 layer.identifier = object.id
-                switch object.type {
-                case .ellipse:
+                if let ellipse = object as? EllipseShape {
                     layer.type = .oval
-                    guard let a = object.a, let b = object.b else { return }
-                    guard a.count == 2, b.count == 2 else { return }
-                    let point0 = CGPoint(x: a[0], y: a[1])
-                    let point1 = CGPoint(x: b[0], y: a[1])
-                    let point2 = CGPoint(x: a[0], y: b[1])
-                    let point3 = CGPoint(x: b[0], y: b[1])
+                    let a = ellipse.a
+                    let b = ellipse.b
+                    let point0 = CGPoint(x: a.x, y: a.y)
+                    let point1 = CGPoint(x: b.x, y: a.y)
+                    let point2 = CGPoint(x: a.x, y: b.y)
+                    let point3 = CGPoint(x: b.x, y: b.y)
                     layer.points[0].append(point0)
                     layer.points[0].append(point1)
                     layer.points[0].append(point2)
                     layer.points[0].append(point3)
-                    layer.strokeColor = UIColor(hexString1: object.strokeColor!).cgColor
-                    layer.fillColor = UIColor(hexString1: object.fillColor!).cgColor
-                    layer.lineWidth = CGFloat(object.strokeWidth ?? 5)
-                    layer.baseLineWidth = 5
-                    
-                    
-                case .freehand:
-                    layer.type = .freehand
-                    guard let segments = object.segments, let strokeColor = object.strokeColor, let lineWidth = object.strokeWidth else { return }
-                    for (index, segment) in segments.enumerated() {
-                        if index == 0 {
-                            let point1 = CGPoint(x: segment.a[0], y: segment.a[1])
-                            let point2 = CGPoint(x: segment.b[0], y: segment.b[1])
-                            layer.points[0].append(point1)
-                            layer.points[0].append(point2)
-
-                        } else {
-                            let point = CGPoint(x: segment.b[0], y: segment.b[1])
-                            layer.points[0].append(point)
-
-                        }
-                    }
-                    layer.lineWidth = CGFloat(lineWidth)
-                    layer.strokeColor = UIColor(hexString1: strokeColor).cgColor
+                    layer.strokeColor = ellipse.strokeColor?.cgColor
                     layer.fillColor = UIColor.clear.cgColor
-                    layer.baseLineWidth = 5
-                    print("start pen")
-                case .text:
-                    guard let boundingRect = object.boundingRect, boundingRect.count == 2 else { return }
+                    layer.lineWidth = ellipse.strokeWidth
+//                    layer.baseLineWidth = 5
+                }else if let textShape = object as? TextShape {
+                    let boundingRect = textShape.boundingRect
                     layer.type = .text
-//                    layer.fillColor = UIColor(hexString1: object.fillColor ?? ).cgColor
-                    let text = object.text
-                    let fontSize = object.fontSize
-                    guard let x = boundingRect[0][0],
-                          let y = boundingRect[0][1],
-                          let width = boundingRect[1][0],
-                          let height = boundingRect[1][1] else { return }
+                    let text = textShape.text
+                    let fontSize = textShape.fontSize
+                    let x = boundingRect.origin.x
+                    let y = boundingRect.origin.y
+                    let width = boundingRect.size.width
+                    let height = boundingRect.size.height
                     layer.points[0].append(CGPoint(x: x, y: y))
                     layer.points[0].append(CGPoint(x: x + width, y: y + height))
                     let style = NSMutableParagraphStyle()
                     style.alignment = .left
                     style.lineBreakMode = .byCharWrapping
-                    let strokeColor = UIColor.clear.cgColor
+                    let strokeColor = UIColor.red.cgColor
 
 
                     let dict: [NSAttributedString.Key: Any] = [
-                        NSAttributedString.Key.paragraphStyle: style,
-                        NSAttributedString.Key.kern: 0.0,
-                        NSAttributedString.Key.font:  UIFont.systemFont(ofSize: CGFloat(fontSize ?? 0)),
+                        NSAttributedString.Key.font:  textShape.font,
                         NSAttributedString.Key.foregroundColor: strokeColor
                     ]
                     layer.text = NSAttributedString(string: text ?? "", attributes: dict)
                     print("add Text")
+                }else if let pen = object as? PenShape {
+                    layer.type = .freehand
+                    let segments = pen.segments
+                    let strokeColor = pen.strokeColor
+                    let lineWidth = pen.strokeWidth
+                    for (index, segment) in segments.enumerated() {
+                        if index == 0 {
+                            let point1 = CGPoint(x: segment.a.x, y: segment.a.y)
+                            let point2 = CGPoint(x: segment.b.x, y: segment.b.y)
+                            layer.points[0].append(point1)
+                            layer.points[0].append(point2)
 
+                        } else {
+                            let point = CGPoint(x: segment.b.x, y: segment.b.y)
+                            layer.points[0].append(point)
+
+                        }
+                    }
+                    layer.lineWidth = CGFloat(lineWidth)
+                    layer.strokeColor = pen.strokeColor.cgColor
+                    layer.fillColor = UIColor.clear.cgColor
+//                    layer.baseLineWidth = 5
+                    print("start pen")
                 }
                 layer.draw()
                 self.layer.addSublayer(layer)
@@ -1215,34 +1210,12 @@ final class PaintView: UIView {
     private func paint(point: CGPoint) {
         
         switch paintType {
-        case .freehand,
-             .highlighter,
-             .pen:
+        case .freehand:
             freehand(point: point)
-        case .line:
-            line(point: point)
-        case .arrow:
-            line(point: point, isArrow: true)
-        case .rect:
-            rect(point: point)
         case .oval:
-            rect(point: point, type: .oval)
-        case .cross:
             rect(point: point, type: .oval)
         case .text:
             textManagementView?.addText(point: point, textColor: paintColor)
-        case .rulerBase,
-             .rulerLine:
-            measure(point: point)
-        case .areaRect,
-             .rulerRect:
-            measureRect(point: point)
-        case .areaPolygon,
-             .rulerPolygon:
-            measurePolygon(point: point)
-        case .areaFreehand,
-             .rulerFreehand:
-            measureFreehand(point: point)
         default:
             break
         }
@@ -1411,40 +1384,6 @@ final class PaintView: UIView {
         }
     }
     
-    // 線・矢印
-    private func line(point: CGPoint, isArrow: Bool = false) {
-        if let layer = drawingLayer {
-            
-            if layer.points[0].count > 1 {
-                layer.points[0][1] = point
-            } else {
-                layer.points[0].append(point)
-            }
-            
-            layer.draw()
-            
-        } else {
-            let layer = PaintLayer()
-            layer.operation = .new
-            layer.identifier = "N\(dateUtil.getJSTDateString(.DateTimeWithMilliSec_NonSeparate))"
-            if isArrow {
-                layer.type = .arrow
-                layer.fillColor = paintColor.cgColor
-            } else {
-                layer.type = .line
-                layer.fillColor = UIColor.clear.cgColor
-            }
-            layer.strokeColor = paintColor.cgColor
-            layer.baseLineWidth = lineWidth
-            layer.lineWidth = layer.baseLineWidth * contentsScale / zoomScaleOffset
-            layer.name = drawing
-            
-            layer.points[0].append(point)
-            
-            layer.draw()
-            self.layer.addSublayer(layer)
-        }
-    }
     
     // 矩形・円・バツ
     private func rect(point: CGPoint, type: RectType = .rect) {
@@ -1467,10 +1406,10 @@ final class PaintView: UIView {
             layer.operation = .new
             layer.identifier = "N\(dateUtil.getJSTDateString(.DateTimeWithMilliSec_NonSeparate))"
             switch type {
-            case .rect:
-                layer.type = .rect
             case .oval:
                 layer.type = .oval
+            default:
+                break
             }
             layer.strokeColor = paintColor.cgColor
             layer.fillColor = UIColor.clear.cgColor
@@ -1485,217 +1424,12 @@ final class PaintView: UIView {
             
             layer.draw()
             self.layer.addSublayer(layer)
+            let ellipseShape = EllipseShape()
+            print(layer)
         }
     }
     
-    // 計測（線）
-    private func measure(point: CGPoint) {
-        if let layer = drawingLayer {
-            
-            if layer.points[0].count > 1 {
-                layer.points[0][1] = point
-            } else {
-                layer.points[0].append(point)
-            }
-            
-            if layer.type == .rulerBase {
-                calcMeasuring()
-                
-            } else if layer.type == .rulerLine {
-                if let base = measuringBaseLayer, let lengthPerPx = measuringUtil.lengthPerPx(points: base.points[0], length: base.number) {
-                    layer.number = measuringUtil.length(points: layer.points[0], lengthPerPx: lengthPerPx)
-                }
-            }
-            
-            layer.draw()
-            
-            delegate?.paintView(self, willMoveLoupe: layer, point: layer.points[0][1])
-            
-        } else {
-            let layer = PaintLayer()
-            layer.operation = .new
-            layer.identifier = "N\(dateUtil.getJSTDateString(.DateTimeWithMilliSec_NonSeparate))"
-            if paintType == .rulerBase {
-                layer.type = .rulerBase
-            } else if paintType == .rulerLine {
-                layer.type = .rulerLine
-            }
-            layer.fillColor = UIColor.clear.cgColor
-            layer.strokeColor = paintColor.cgColor
-            layer.baseLineWidth = 1
-            layer.lineWidth = layer.baseLineWidth * contentsScale / zoomScaleOffset
-            layer.name = drawing
-            
-            layer.points[0].append(point)
-            layer.points[0].append(point)
-            
-            layer.draw()
-            self.layer.addSublayer(layer)
-            
-            delegate?.paintView(self, willDisplayLoupe: layer, point: layer.points[0][1])
-        }
-    }
-    
-    // 計測（矩形）
-    private func measureRect(point: CGPoint) {
-        if let layer = drawingLayer {
-            
-            if layer.points[0].count > 1 {
-                layer.points[0][1].x = point.x
-                layer.points[0][2].y = point.y
-                layer.points[0][3] = point
-            } else {
-                layer.points[0].append(point)
-                layer.points[0].append(point)
-                layer.points[0].append(point)
-            }
-            
-            if let base = measuringBaseLayer, let lengthPerPx = measuringUtil.lengthPerPx(points: base.points[0], length: base.number) {
-                if layer.type == .rulerRect {
-                    layer.number = measuringUtil.length(
-                        rect: CGRect(
-                            x: layer.points[0][0].x,
-                            y: layer.points[0][0].y,
-                            width: CGFloat(fabsf(Float(layer.points[0][0].x - layer.points[0][3].x))),
-                            height: CGFloat(fabsf(Float(layer.points[0][0].y - layer.points[0][3].y)))
-                        ),
-                        lengthPerPx: lengthPerPx
-                    )
-                } else if layer.type == .areaRect {
-                    layer.number = measuringUtil.area(
-                        rect: CGRect(
-                            x: layer.points[0][0].x,
-                            y: layer.points[0][0].y,
-                            width: CGFloat(fabsf(Float(layer.points[0][0].x - layer.points[0][3].x))),
-                            height: CGFloat(fabsf(Float(layer.points[0][0].y - layer.points[0][3].y)))
-                        ),
-                        lengthPerPx: lengthPerPx
-                    )
-                }
-            } else {
-                layer.number = nil
-            }
-            
-            layer.draw()
-            
-            delegate?.paintView(self, willMoveLoupe: layer, point: layer.points[0][3])
-            
-        } else {
-            let layer = PaintLayer()
-            layer.operation = .new
-            layer.identifier = "N\(dateUtil.getJSTDateString(.DateTimeWithMilliSec_NonSeparate))"
-            layer.type = paintType
-            layer.fillColor = UIColor.clear.cgColor
-            layer.strokeColor = paintColor.cgColor
-            layer.baseLineWidth = 1
-            layer.lineWidth = layer.baseLineWidth * contentsScale / zoomScaleOffset
-            layer.name = drawing
-            
-            layer.points[0].append(point)
-            layer.points[0].append(point)
-            layer.points[0].append(point)
-            layer.points[0].append(point)
-            
-            layer.draw()
-            self.layer.addSublayer(layer)
-            
-            delegate?.paintView(self, willDisplayLoupe: layer, point: layer.points[0][3])
-        }
-    }
-    
-    // 計測（多角形）
-    private func measurePolygon(point: CGPoint) {
-        if let layer = drawingLayer {
-            
-            if isFirstMoved || layer.points.isEmpty {
-                layer.points[0].append(point)
-                isFirstMoved = false
-                
-                delegate?.paintView(self, willDisplayLoupe: layer, point: layer.points[0][layer.points[0].count - 1])
-            } else {
-                layer.points[0][layer.points[0].count - 1] = point
-                
-                delegate?.paintView(self, willMoveLoupe: layer, point: layer.points[0][layer.points[0].count - 1])
-            }
-            
-            if let base = measuringBaseLayer, let lengthPerPx = measuringUtil.lengthPerPx(points: base.points[0], length: base.number) {
-                if layer.type == .rulerPolygon {
-                    layer.number = measuringUtil.length(points: layer.points[0], isClose: false, lengthPerPx: lengthPerPx)
-                }
-            } else {
-                layer.number = nil
-            }
-            
-            layer.draw()
-            
-        } else {
-            let layer = PaintLayer()
-            layer.operation = .new
-            layer.identifier = "N\(dateUtil.getJSTDateString(.DateTimeWithMilliSec_NonSeparate))"
-            layer.type = paintType
-            layer.fillColor = UIColor.clear.cgColor
-            layer.strokeColor = paintColor.cgColor
-            layer.baseLineWidth = 1
-            layer.lineWidth = layer.baseLineWidth * contentsScale / zoomScaleOffset
-            layer.name = drawing
-            
-            layer.points[0].append(point)
-            isFirstMoved = false
-            
-            layer.draw()
-            self.layer.addSublayer(layer)
-            
-            delegate?.paintView(self, willDisplayLoupe: layer, point: layer.points[0][layer.points[0].count - 1])
-        }
-    }
-    
-    // 計測（自由線）
-    private func measureFreehand(point: CGPoint) {
-        if let layer = drawingLayer {
-            
-            if isFirstMoved {
-                isFirstMoved = false
-                return
-            }
-            
-            layer.points[layer.points.count - 1].append(point)
-            delegate?.paintView(self, willMoveLoupe: layer, point: layer.points[0][layer.points[0].count - 1])
-            
-            if let base = measuringBaseLayer, let lengthPerPx = measuringUtil.lengthPerPx(points: base.points[0], length: base.number) {
-                if layer.type == .rulerFreehand {
-                    layer.number = measuringUtil.length(points: layer.points[0], lengthPerPx: lengthPerPx)
-                } else if layer.type == .areaFreehand {
-                    layer.number = measuringUtil.area(points: layer.points[0], lengthPerPx: lengthPerPx)
-                }
-            } else {
-                layer.number = nil
-            }
-            
-            layer.draw()
-            
-        } else {
-            let layer = PaintLayer()
-            layer.operation = .new
-            layer.identifier = "N\(dateUtil.getJSTDateString(.DateTimeWithMilliSec_NonSeparate))"
-            layer.strokeColor = paintColor.cgColor
-            layer.fillColor = UIColor.clear.cgColor
-            layer.type = paintType
-            layer.baseLineWidth = 1
-            layer.lineWidth = layer.baseLineWidth * contentsScale / zoomScaleOffset
-            layer.name = drawing
-            layer.lineCap = CAShapeLayerLineCap.round
-            
-            isFirstMoved = true
-            
-            layer.points[0].append(point)
-            
-            layer.draw()
-            self.layer.addSublayer(layer)
-            
-            delegate?.paintView(self, willDisplayLoupe: layer, point: layer.points[0][layer.points[0].count - 1])
-        }
-    }
-    
+   
     // テキスト
     func text(_ text: String, attributes: [NSAttributedString.Key: Any], layer_id: String, rect: CGRect) {
         guard let textColor = attributes[NSAttributedString.Key.foregroundColor] as? UIColor else {
@@ -2183,7 +1917,7 @@ extension PaintView {
         let contentsScale = self.contentsScale
         
         let layers = layer.sublayers?.compactMap({ $0 as? PaintLayer }) ?? []
-        let shapes: [Shape] = []
+        let shapes: [ShapeCustom] = []
         DispatchQueue.global(qos: .userInitiated).async(execute: { [weak self] in
             defer {
                 DispatchQueue.main.sync(execute: { [weak self] in

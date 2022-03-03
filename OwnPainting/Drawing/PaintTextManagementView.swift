@@ -224,6 +224,13 @@ final class PaintTextManagementView: UIView, UITextViewDelegate {
         textView.center = CGPoint(x: point.x + textRect.size.width/2, y: point.y)
         
         textView.becomeFirstResponder()
+        let textShape = TextShape()
+        textShape.boundingRect = textView.frame
+        textShape.fontSize = fontSize.rawValue
+        textShape.fontName = "Helvetica Neue"
+        textShape.transform.translation = textView.frame.middle
+        textShape.text = textView.text
+        paintView?.drawingObjects?.add(shape: textShape)
     }
     
     func editText(layer: PaintLayer, frame: CGRect) {
@@ -261,6 +268,14 @@ final class PaintTextManagementView: UIView, UITextViewDelegate {
         textView.frame = rect
         
         textView.becomeFirstResponder()
+        
+        let textShape = TextShape()
+        textShape.boundingRect = textView.frame
+        textShape.fontSize = fontSize.rawValue
+        textShape.fontName = "Helvetica Neue"
+        textShape.transform.translation = textView.frame.middle
+        textShape.text = textView.text
+        paintView?.drawingObjects?.update(shape: textShape)
     }
     
     func didEndInputText() {

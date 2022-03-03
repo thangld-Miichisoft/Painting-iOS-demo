@@ -13,7 +13,6 @@
 		017BBCAC27D0CAE0008D7CDD /* UIImageView+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 017BBC9A27D0CAE0008D7CDD /* UIImageView+extension.swift */; };
 		017BBCAD27D0CAE0008D7CDD /* UIFont+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 017BBC9B27D0CAE0008D7CDD /* UIFont+extension.swift */; };
 		017BBCAE27D0CAE0008D7CDD /* UIColor+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 017BBC9C27D0CAE0008D7CDD /* UIColor+extension.swift */; };
-		017BBCAF27D0CAE0008D7CDD /* Drawing+Signature+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 017BBC9D27D0CAE0008D7CDD /* Drawing+Signature+Extension.swift */; };
 		017BBCB027D0CAE0008D7CDD /* RxExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 017BBC9E27D0CAE0008D7CDD /* RxExtension.swift */; };
 		017BBCB127D0CAE0008D7CDD /* Collection+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 017BBC9F27D0CAE0008D7CDD /* Collection+Extension.swift */; };
 		017BBCB227D0CAE0008D7CDD /* UIButton+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 017BBCA027D0CAE0008D7CDD /* UIButton+extension.swift */; };
@@ -23,7 +22,19 @@
 		017BBCBB27D0CAE1008D7CDD /* UITextField+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 017BBCA927D0CAE0008D7CDD /* UITextField+extension.swift */; };
 		017BBCC027D0D16C008D7CDD /* SampleJson.swift in Sources */ = {isa = PBXBuildFile; fileRef = 017BBCBF27D0D16C008D7CDD /* SampleJson.swift */; };
 		017BBCC227D0D500008D7CDD /* jsonSample.json in Resources */ = {isa = PBXBuildFile; fileRef = 017BBCC127D0D4FF008D7CDD /* jsonSample.json */; };
-		4C02284827D050DD005C53BC /* Drawing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C02284727D050DD005C53BC /* Drawing.swift */; };
+		017BBCC427D0DFA3008D7CDD /* KeyedDecodingContainer+DrawsanaExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 017BBCC327D0DFA3008D7CDD /* KeyedDecodingContainer+DrawsanaExtensions.swift */; };
+		017BBCC827D0EFAE008D7CDD /* Drawing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 017BBCC727D0EFAE008D7CDD /* Drawing.swift */; };
+		017BBCCA27D0EFC4008D7CDD /* Shape.swift in Sources */ = {isa = PBXBuildFile; fileRef = 017BBCC927D0EFC4008D7CDD /* Shape.swift */; };
+		017BBCCC27D0EFE0008D7CDD /* UserSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 017BBCCB27D0EFDF008D7CDD /* UserSettings.swift */; };
+		017BBCCE27D0EFFF008D7CDD /* ShapeTransform.swift in Sources */ = {isa = PBXBuildFile; fileRef = 017BBCCD27D0EFFF008D7CDD /* ShapeTransform.swift */; };
+		017BBCD227D0F022008D7CDD /* EllipseShape.swift in Sources */ = {isa = PBXBuildFile; fileRef = 017BBCCF27D0F022008D7CDD /* EllipseShape.swift */; };
+		017BBCD327D0F022008D7CDD /* PenShape.swift in Sources */ = {isa = PBXBuildFile; fileRef = 017BBCD027D0F022008D7CDD /* PenShape.swift */; };
+		017BBCD427D0F022008D7CDD /* TextShape.swift in Sources */ = {isa = PBXBuildFile; fileRef = 017BBCD127D0F022008D7CDD /* TextShape.swift */; };
+		017BBCD827D0F71D008D7CDD /* Drawing+Signature+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 017BBCD727D0F71D008D7CDD /* Drawing+Signature+Extension.swift */; };
+		017BBCDA27D0F743008D7CDD /* DrawsanaUtilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 017BBCD927D0F743008D7CDD /* DrawsanaUtilities.swift */; };
+		017BBCDC27D0F78D008D7CDD /* CGPoint+DrawsanaExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 017BBCDB27D0F78D008D7CDD /* CGPoint+DrawsanaExtensions.swift */; };
+		017BBCDE27D0FBF6008D7CDD /* CGRect+DrawsanaExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 017BBCDD27D0FBF6008D7CDD /* CGRect+DrawsanaExtensions.swift */; };
+		4C02284827D050DD005C53BC /* DrawingObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C02284727D050DD005C53BC /* DrawingObject.swift */; };
 		4C02284927D05191005C53BC /* json.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C02284427D05084005C53BC /* json.swift */; };
 		4C9DAB8E27C5CD7B009DBAF5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C9DAB8D27C5CD7B009DBAF5 /* AppDelegate.swift */; };
 		4C9DAB9027C5CD7B009DBAF5 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C9DAB8F27C5CD7B009DBAF5 /* SceneDelegate.swift */; };
@@ -49,7 +60,6 @@
 		017BBC9A27D0CAE0008D7CDD /* UIImageView+extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImageView+extension.swift"; sourceTree = "<group>"; };
 		017BBC9B27D0CAE0008D7CDD /* UIFont+extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIFont+extension.swift"; sourceTree = "<group>"; };
 		017BBC9C27D0CAE0008D7CDD /* UIColor+extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIColor+extension.swift"; sourceTree = "<group>"; };
-		017BBC9D27D0CAE0008D7CDD /* Drawing+Signature+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Drawing+Signature+Extension.swift"; sourceTree = "<group>"; };
 		017BBC9E27D0CAE0008D7CDD /* RxExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RxExtension.swift; sourceTree = "<group>"; };
 		017BBC9F27D0CAE0008D7CDD /* Collection+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Collection+Extension.swift"; sourceTree = "<group>"; };
 		017BBCA027D0CAE0008D7CDD /* UIButton+extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIButton+extension.swift"; sourceTree = "<group>"; };
@@ -59,8 +69,20 @@
 		017BBCA927D0CAE0008D7CDD /* UITextField+extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UITextField+extension.swift"; sourceTree = "<group>"; };
 		017BBCBF27D0D16C008D7CDD /* SampleJson.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SampleJson.swift; sourceTree = "<group>"; };
 		017BBCC127D0D4FF008D7CDD /* jsonSample.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = jsonSample.json; sourceTree = "<group>"; };
+		017BBCC327D0DFA3008D7CDD /* KeyedDecodingContainer+DrawsanaExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "KeyedDecodingContainer+DrawsanaExtensions.swift"; sourceTree = "<group>"; };
+		017BBCC727D0EFAE008D7CDD /* Drawing.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Drawing.swift; sourceTree = "<group>"; };
+		017BBCC927D0EFC4008D7CDD /* Shape.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Shape.swift; sourceTree = "<group>"; };
+		017BBCCB27D0EFDF008D7CDD /* UserSettings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserSettings.swift; sourceTree = "<group>"; };
+		017BBCCD27D0EFFF008D7CDD /* ShapeTransform.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShapeTransform.swift; sourceTree = "<group>"; };
+		017BBCCF27D0F022008D7CDD /* EllipseShape.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EllipseShape.swift; sourceTree = "<group>"; };
+		017BBCD027D0F022008D7CDD /* PenShape.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PenShape.swift; sourceTree = "<group>"; };
+		017BBCD127D0F022008D7CDD /* TextShape.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextShape.swift; sourceTree = "<group>"; };
+		017BBCD727D0F71D008D7CDD /* Drawing+Signature+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Drawing+Signature+Extension.swift"; sourceTree = "<group>"; };
+		017BBCD927D0F743008D7CDD /* DrawsanaUtilities.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DrawsanaUtilities.swift; sourceTree = "<group>"; };
+		017BBCDB27D0F78D008D7CDD /* CGPoint+DrawsanaExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CGPoint+DrawsanaExtensions.swift"; sourceTree = "<group>"; };
+		017BBCDD27D0FBF6008D7CDD /* CGRect+DrawsanaExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CGRect+DrawsanaExtensions.swift"; sourceTree = "<group>"; };
 		4C02284427D05084005C53BC /* json.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = json.swift; sourceTree = "<group>"; };
-		4C02284727D050DD005C53BC /* Drawing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Drawing.swift; sourceTree = "<group>"; };
+		4C02284727D050DD005C53BC /* DrawingObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawingObject.swift; sourceTree = "<group>"; };
 		4C9DAB8A27C5CD7B009DBAF5 /* OwnPainting.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OwnPainting.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4C9DAB8D27C5CD7B009DBAF5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		4C9DAB8F27C5CD7B009DBAF5 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -121,15 +143,19 @@
 			children = (
 				017BBC9927D0CAE0008D7CDD /* UIApplication+extension.swift */,
 				017BBC9A27D0CAE0008D7CDD /* UIImageView+extension.swift */,
+				017BBCD927D0F743008D7CDD /* DrawsanaUtilities.swift */,
+				017BBCDD27D0FBF6008D7CDD /* CGRect+DrawsanaExtensions.swift */,
+				017BBCD727D0F71D008D7CDD /* Drawing+Signature+Extension.swift */,
+				017BBCDB27D0F78D008D7CDD /* CGPoint+DrawsanaExtensions.swift */,
 				017BBC9B27D0CAE0008D7CDD /* UIFont+extension.swift */,
 				017BBC9C27D0CAE0008D7CDD /* UIColor+extension.swift */,
-				017BBC9D27D0CAE0008D7CDD /* Drawing+Signature+Extension.swift */,
 				017BBC9E27D0CAE0008D7CDD /* RxExtension.swift */,
 				017BBC9F27D0CAE0008D7CDD /* Collection+Extension.swift */,
 				017BBCA027D0CAE0008D7CDD /* UIButton+extension.swift */,
 				017BBCA327D0CAE0008D7CDD /* UIImage+extension.swift */,
 				017BBCA627D0CAE0008D7CDD /* String+extension.swift */,
 				017BBCA727D0CAE0008D7CDD /* RxActivityIndicator.swift */,
+				017BBCC327D0DFA3008D7CDD /* KeyedDecodingContainer+DrawsanaExtensions.swift */,
 				017BBCA927D0CAE0008D7CDD /* UITextField+extension.swift */,
 			);
 			path = Extensions;
@@ -138,7 +164,14 @@
 		4C02284627D050D1005C53BC /* Data Model */ = {
 			isa = PBXGroup;
 			children = (
-				4C02284727D050DD005C53BC /* Drawing.swift */,
+				017BBCC727D0EFAE008D7CDD /* Drawing.swift */,
+				017BBCCF27D0F022008D7CDD /* EllipseShape.swift */,
+				017BBCD027D0F022008D7CDD /* PenShape.swift */,
+				017BBCD127D0F022008D7CDD /* TextShape.swift */,
+				017BBCC927D0EFC4008D7CDD /* Shape.swift */,
+				017BBCCB27D0EFDF008D7CDD /* UserSettings.swift */,
+				017BBCCD27D0EFFF008D7CDD /* ShapeTransform.swift */,
+				4C02284727D050DD005C53BC /* DrawingObject.swift */,
 			);
 			path = "Data Model";
 			sourceTree = "<group>";
@@ -324,29 +357,40 @@
 			buildActionMask = 2147483647;
 			files = (
 				4C9DABA827C5D078009DBAF5 /* PaintTextManagementView.swift in Sources */,
+				017BBCD827D0F71D008D7CDD /* Drawing+Signature+Extension.swift in Sources */,
 				017BBCB127D0CAE0008D7CDD /* Collection+Extension.swift in Sources */,
+				017BBCDC27D0F78D008D7CDD /* CGPoint+DrawsanaExtensions.swift in Sources */,
 				4C9DABAA27C5D135009DBAF5 /* PaintSelectNavigationView.swift in Sources */,
 				4C9DABA627C5CF6D009DBAF5 /* PaintLayer.swift in Sources */,
+				017BBCDE27D0FBF6008D7CDD /* CGRect+DrawsanaExtensions.swift in Sources */,
 				017BBCAE27D0CAE0008D7CDD /* UIColor+extension.swift in Sources */,
 				017BBC9527D0C0B2008D7CDD /* DrawingViewController.swift in Sources */,
+				017BBCC827D0EFAE008D7CDD /* Drawing.swift in Sources */,
+				017BBCD427D0F022008D7CDD /* TextShape.swift in Sources */,
 				017BBCB927D0CAE1008D7CDD /* RxActivityIndicator.swift in Sources */,
 				4C9DABA227C5CDA2009DBAF5 /* PainView.swift in Sources */,
 				4C9DABA427C5CE62009DBAF5 /* DateUtil.swift in Sources */,
 				4C9DAB9227C5CD7B009DBAF5 /* ViewController.swift in Sources */,
 				017BBCAD27D0CAE0008D7CDD /* UIFont+extension.swift in Sources */,
 				4C9DAB8E27C5CD7B009DBAF5 /* AppDelegate.swift in Sources */,
+				017BBCDA27D0F743008D7CDD /* DrawsanaUtilities.swift in Sources */,
+				017BBCC427D0DFA3008D7CDD /* KeyedDecodingContainer+DrawsanaExtensions.swift in Sources */,
 				017BBCB827D0CAE1008D7CDD /* String+extension.swift in Sources */,
 				4C9DABBA27C5D714009DBAF5 /* UIColorExtension.swift in Sources */,
-				017BBCAF27D0CAE0008D7CDD /* Drawing+Signature+Extension.swift in Sources */,
 				017BBCB227D0CAE0008D7CDD /* UIButton+extension.swift in Sources */,
 				4C02284927D05191005C53BC /* json.swift in Sources */,
 				017BBCAC27D0CAE0008D7CDD /* UIImageView+extension.swift in Sources */,
 				4C9DABB827C5D64B009DBAF5 /* ObjcUtility.m in Sources */,
-				4C02284827D050DD005C53BC /* Drawing.swift in Sources */,
+				4C02284827D050DD005C53BC /* DrawingObject.swift in Sources */,
+				017BBCCC27D0EFE0008D7CDD /* UserSettings.swift in Sources */,
+				017BBCD327D0F022008D7CDD /* PenShape.swift in Sources */,
 				017BBCBB27D0CAE1008D7CDD /* UITextField+extension.swift in Sources */,
 				017BBCAB27D0CAE0008D7CDD /* UIApplication+extension.swift in Sources */,
 				017BBCB527D0CAE0008D7CDD /* UIImage+extension.swift in Sources */,
+				017BBCCA27D0EFC4008D7CDD /* Shape.swift in Sources */,
+				017BBCD227D0F022008D7CDD /* EllipseShape.swift in Sources */,
 				4C9DABBC27C5D763009DBAF5 /* StringExtension.swift in Sources */,
+				017BBCCE27D0EFFF008D7CDD /* ShapeTransform.swift in Sources */,
 				4C9DAB9027C5CD7B009DBAF5 /* SceneDelegate.swift in Sources */,
 				017BBCB027D0CAE0008D7CDD /* RxExtension.swift in Sources */,
 				017BBCC027D0D16C008D7CDD /* SampleJson.swift in Sources */,

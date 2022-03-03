@@ -81,8 +81,8 @@ class DrawingViewController: UIViewController {
         undoCount = 0
         redoCount = 0
         
-//        let string = JSONString.stringEllipse
-//        let dataJson = string.data(using: .utf8)!
+        let string = JSONString.stringEllipse
+        let dataJson = string.data(using: .utf8)!
 //
 //        do {
 //            if let b = try? JSONDecoder().decode(DrawingObject.self, from: dataJson) {
@@ -93,9 +93,10 @@ class DrawingViewController: UIViewController {
 //            print(error)
 //        }
         SampleJson.readJsonDrawing { [weak self] drawing in
+            print(drawing)
             self?.paintView.drawingObjects = drawing
         }
-//
+////
         applyUndoViewState()
     }
     
@@ -136,7 +137,8 @@ class DrawingViewController: UIViewController {
     }
     @IBAction func saveDrawing(_ sender: UIButton) {
         paintView.cancelSelectLayers()
-        paintView.save(layer_id: "", completion: nil)
+//        paintView.save(layer_id: "", completion: nil)
+        print(paintView.drawingObjects?.toJson())
     }
     
     @IBAction func moveHandle(_ sender: UIButton) {
@@ -229,11 +231,39 @@ extension DrawingViewController: PaintViewDelegate {
     }
     
     func paintView(_ paintView: PaintView, didEndDrawing layers: [PaintLayer]) {
-        
+        print(layers)
+        for item in layers{
+            switch item.type {
+            case .oval:
+                let ellise = EllipseShape()
+                ellise.a = item.frame.origin
+                ellise.b = CGPoint(x: item.frame.maxX, y: item.frame.maxY)
+                ellise.strokeColor = .red
+                ellise.fillColor = .clear
+                ellise.id = item.identifier
+                paintView.drawingObjects?.add(shape: ellise)
+                break
+            case .text:
+                let textShape = TextShape()
+                textShape.fillColor = .red
+                textShape.id = item.identifier
+                textShape.fontSize = 45
+                textShape.fontName = "Helvetica Neue"
+                textShape.text = item.text?.string ?? ""
+                textShape.transform.translation = item.frame.middle
+                let boundingRect = item.frame
+                textShape.boundingRect = boundingRect
+                break
+            case .freehand:
+                break
+            default:
+                break
+            }
+        }
     }
     
     func paintView(_ paintView: PaintView, didEndDrawing layer: PaintLayer, error: PaintView.PaintError) {
-        
+        print(layer)
     }
     
     
