@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19455" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
-    <device id="retina6_1" orientation="portrait" appearance="light"/>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+    <device id="retina6_1" orientation="landscape" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19454"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -13,84 +13,73 @@
             <objects>
                 <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="OwnPainting" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <rect key="frame" x="0.0" y="0.0" width="896" height="414"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4BZ-rc-Mm7" customClass="PaintView" customModule="OwnPainting" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="44" width="414" height="738"/>
+                                <rect key="frame" x="44" y="0.0" width="808" height="313"/>
+                                <subviews>
+                                    <imageView clipsSubviews="YES" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="drawing_image" translatesAutoresizingMaskIntoConstraints="NO" id="bvj-Bj-HXo">
+                                        <rect key="frame" x="0.0" y="106" width="808" height="101"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" secondItem="bvj-Bj-HXo" secondAttribute="height" multiplier="2088/261" id="qro-U8-lct"/>
+                                        </constraints>
+                                    </imageView>
+                                </subviews>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstItem="bvj-Bj-HXo" firstAttribute="width" secondItem="4BZ-rc-Mm7" secondAttribute="width" id="3kb-bR-6yC"/>
+                                    <constraint firstItem="bvj-Bj-HXo" firstAttribute="centerY" secondItem="4BZ-rc-Mm7" secondAttribute="centerY" id="GAc-ic-AOQ"/>
+                                    <constraint firstItem="bvj-Bj-HXo" firstAttribute="centerX" secondItem="4BZ-rc-Mm7" secondAttribute="centerX" id="aAa-Q5-nXn"/>
+                                </constraints>
                             </view>
                             <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="78o-FE-Jok">
-                                <rect key="frame" x="0.0" y="782" width="414" height="30"/>
+                                <rect key="frame" x="44" y="313" width="808" height="30"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FOw-5D-zjE" userLabel="Undo">
-                                        <rect key="frame" x="0.0" y="0.0" width="138" height="30"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="269.5" height="30"/>
                                         <state key="normal" title="Button"/>
                                         <buttonConfiguration key="configuration" style="plain" title="Undo"/>
-                                        <connections>
-                                            <action selector="undoSelection:" destination="BYZ-38-t0r" eventType="touchUpInside" id="6Dz-RN-TFX"/>
-                                        </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5kU-7B-6wo" userLabel="Redo">
-                                        <rect key="frame" x="138" y="0.0" width="138" height="30"/>
+                                        <rect key="frame" x="269.5" y="0.0" width="269" height="30"/>
                                         <state key="normal" title="Button"/>
                                         <buttonConfiguration key="configuration" style="plain" title="Redo"/>
-                                        <connections>
-                                            <action selector="redoSelection:" destination="BYZ-38-t0r" eventType="touchUpInside" id="PA4-Ne-gjC"/>
-                                        </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zRi-tt-Kl7">
-                                        <rect key="frame" x="276" y="0.0" width="138" height="30"/>
+                                        <rect key="frame" x="538.5" y="0.0" width="269.5" height="30"/>
                                         <state key="normal" title="Button"/>
                                         <buttonConfiguration key="configuration" style="plain" title="Save"/>
-                                        <connections>
-                                            <action selector="saveDrawing:" destination="BYZ-38-t0r" eventType="touchUpInside" id="WQZ-fD-vYH"/>
-                                        </connections>
                                     </button>
                                 </subviews>
                             </stackView>
                             <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="GZ8-bX-h0s">
-                                <rect key="frame" x="0.0" y="812" width="414" height="50"/>
+                                <rect key="frame" x="44" y="343" width="808" height="50"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Q3o-Fj-xl7">
-                                        <rect key="frame" x="0.0" y="0.0" width="83" height="50"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="161.5" height="50"/>
                                         <state key="normal" title="Button"/>
                                         <buttonConfiguration key="configuration" style="plain" title="Free hand"/>
-                                        <connections>
-                                            <action selector="didSelectFreeHandMode:" destination="BYZ-38-t0r" eventType="touchUpInside" id="F65-tQ-Eqw"/>
-                                        </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rCZ-UP-2bQ">
-                                        <rect key="frame" x="83" y="0.0" width="82.5" height="50"/>
+                                        <rect key="frame" x="161.5" y="0.0" width="161.5" height="50"/>
                                         <state key="normal" title="Button"/>
                                         <buttonConfiguration key="configuration" style="plain" title="Oval"/>
-                                        <connections>
-                                            <action selector="didSelectOvalMode:" destination="BYZ-38-t0r" eventType="touchUpInside" id="TTa-bD-yd8"/>
-                                        </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="je4-87-rSl">
-                                        <rect key="frame" x="165.5" y="0.0" width="83" height="50"/>
+                                        <rect key="frame" x="323" y="0.0" width="162" height="50"/>
                                         <state key="normal" title="Button"/>
                                         <buttonConfiguration key="configuration" style="plain" title="Text"/>
-                                        <connections>
-                                            <action selector="didSelecTextMode:" destination="BYZ-38-t0r" eventType="touchUpInside" id="C92-XR-2gI"/>
-                                        </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FUv-tW-rIS">
-                                        <rect key="frame" x="248.5" y="0.0" width="82.5" height="50"/>
+                                        <rect key="frame" x="485" y="0.0" width="161.5" height="50"/>
                                         <state key="normal" title="Button"/>
                                         <buttonConfiguration key="configuration" style="plain" title="Select"/>
-                                        <connections>
-                                            <action selector="selectionMode:" destination="BYZ-38-t0r" eventType="touchUpInside" id="jmb-2H-aPb"/>
-                                        </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0B7-ce-Th7">
-                                        <rect key="frame" x="331" y="0.0" width="83" height="50"/>
+                                        <rect key="frame" x="646.5" y="0.0" width="161.5" height="50"/>
                                         <state key="normal" title="Button"/>
                                         <buttonConfiguration key="configuration" style="plain" title="Delete"/>
-                                        <connections>
-                                            <action selector="removeLayer:" destination="BYZ-38-t0r" eventType="touchUpInside" id="R4h-aJ-aBn"/>
-                                        </connections>
                                     </button>
                                 </subviews>
                                 <constraints>
@@ -115,9 +104,7 @@
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="paintView" destination="4BZ-rc-Mm7" id="Nzk-40-mpr"/>
-                        <outlet property="redoButton" destination="5kU-7B-6wo" id="sHG-Gs-FPO"/>
-                        <outlet property="undoButton" destination="FOw-5D-zjE" id="7RZ-lx-Kri"/>
+                        <outlet property="imageView" destination="bvj-Bj-HXo" id="gZ7-8z-Rld"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -126,6 +113,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="drawing_image" width="2088" height="261"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
