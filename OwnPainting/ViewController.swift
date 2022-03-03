@@ -20,10 +20,21 @@ class ViewController: UIViewController {
     @objc func tapImage(gesture: UITapGestureRecognizer){
         let drawingViewController = DrawingViewController()
         drawingViewController.modalPresentationStyle = .fullScreen
-//        drawingViewController.delegate = self
+        drawingViewController.delegate = self
         self.present(drawingViewController, animated: true) {
             
         }
     }
+    
+}
+extension ViewController: CustomDrawingDelegate {
+    func didDrawingDone(drawing: Drawing?) {
+        if let drawing = drawing , let baseImage = imageView.image{
+            
+            let image = drawing.toImageDrawing(baseImage: baseImage)
+            imageView.image = image
+        }
+    }
+    
     
 }

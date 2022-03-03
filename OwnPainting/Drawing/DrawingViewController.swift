@@ -29,6 +29,7 @@ class DrawingViewController: UIViewController {
     @IBOutlet weak var imageDelete: UIImageView!
     @IBOutlet weak var paintView: PaintView!
     
+    var delegate: CustomDrawingDelegate!
     lazy var toolButtons: [UIButton] = {
         return  [
             selectionButton,
@@ -137,8 +138,11 @@ class DrawingViewController: UIViewController {
     }
     @IBAction func saveDrawing(_ sender: UIButton) {
         paintView.cancelSelectLayers()
-//        paintView.save(layer_id: "", completion: nil)
-        print(paintView.drawingObjects?.toJson())
+        paintView.save {[weak self] drawing in
+            self?.delegate.didDrawingDone(drawing: drawing)
+            self?.dismiss(animated: true, completion: nil)
+        }
+        
     }
     
     @IBAction func moveHandle(_ sender: UIButton) {
@@ -195,75 +199,56 @@ extension DrawingViewController: PaintViewDelegate {
         print(didSelectLayers)
         setHighlightColorButton(sender: deleteButton)
         showSelectedShape = true
+        applyUndoViewState()
     }
     
     func paintView(_ paintView: PaintView, didDeSelectLayers: [PaintLayer]) {
         print(didDeSelectLayers)
         showSelectedShape = false
+        applyUndoViewState()
     }
     
     func paintView(_ paintView: PaintView, isTouchLayers: [PaintLayer]) {
         print(isTouchLayers)
+        applyUndoViewState()
     }
     
     func paintView(_ paintView: PaintView, didChangeUndoStack: [PaintUndoObject]) {
         undoCount = didChangeUndoStack.count
+        applyUndoViewState()
     }
     
     func paintView(_ paintView: PaintView, didChangeRedoStack: [PaintUndoObject]) {
         redoCount = didChangeRedoStack.count
+        applyUndoViewState()
     }
     
     func paintView(_ paintView: PaintView, didChangePainObject: PaintObject) {
         print(didChangePainObject)
+        applyUndoViewState()
     }
     
     func paintView(_ paintView: PaintView, willDisplayLoupe layer: PaintLayer, point: CGPoint) {
-        
+        applyUndoViewState()
     }
     
     func paintView(_ paintView: PaintView, willMoveLoupe layer: PaintLayer, point: CGPoint) {
-        
+        applyUndoViewState()
     }
     
     func paintView(_ paintView: PaintView, didDeDisplayLoupe layer: PaintLayer) {
-        
+        applyUndoViewState()
     }
     
     func paintView(_ paintView: PaintView, didEndDrawing layers: [PaintLayer]) {
         print(layers)
-        for item in layers{
-            switch item.type {
-            case .oval:
-                let ellise = EllipseShape()
-                ellise.a = item.frame.origin
-                ellise.b = CGPoint(x: item.frame.maxX, y: item.frame.maxY)
-                ellise.strokeColor = .red
-                ellise.fillColor = .clear
-                ellise.id = item.identifier
-                paintView.drawingObjects?.add(shape: ellise)
-                break
-            case .text:
-                let textShape = TextShape()
-                textShape.fillColor = .red
-                textShape.id = item.identifier
-                textShape.fontSize = 45
-                textShape.fontName = "Helvetica Neue"
-                textShape.text = item.text?.string ?? ""
-                textShape.transform.translation = item.frame.middle
-                let boundingRect = item.frame
-                textShape.boundingRect = boundingRect
-                break
-            case .freehand:
-                break
-            default:
-                break
-            }
-        }
+        applyUndoViewState()
+        
     }
     
     func paintView(_ paintView: PaintView, didEndDrawing layer: PaintLayer, error: PaintView.PaintError) {
         print(layer)
+        applyUndoViewState()
     }
     
     
@@ -277,4 +262,8 @@ extension DrawingViewController {
     @objc private func editTextLayer(_ sender: UIMenuItem) {
         paintView.editSelectTextLayer()
     }
+}
+
+protocol CustomDrawingDelegate{
+    func didDrawingDone(drawing: Drawing?)
 }

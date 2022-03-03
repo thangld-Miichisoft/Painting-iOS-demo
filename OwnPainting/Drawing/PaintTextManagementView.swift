@@ -67,13 +67,7 @@ final class PaintTextManagementView: UIView, UITextViewDelegate {
         return tv
     }()
     
-    private lazy var segmentedControl: UISegmentedControl = {
-        let sc = UISegmentedControl(items: [
-            "Large", "Medium", "Small"
-            ])
-        sc.selectedSegmentIndex = 0
-        return sc
-    }()
+ 
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -197,7 +191,7 @@ final class PaintTextManagementView: UIView, UITextViewDelegate {
         
         isHidden = false
         
-        let font = UIFont(name: "IPAexGothic", size: fontSize.rawValue * paintView!.zoomScale) ?? UIFont.systemFont(ofSize: fontSize.rawValue * paintView!.zoomScale, weight: .regular)
+        let font = UIFont(name: "Helvetica Neue", size: fontSize.rawValue * paintView!.zoomScale) ?? UIFont.systemFont(ofSize: fontSize.rawValue * paintView!.zoomScale, weight: .regular)
 
         
         layer_id = "N\(dateUtil.getJSTDateString(.DateTimeWithMilliSec_NonSeparate))"
@@ -224,13 +218,6 @@ final class PaintTextManagementView: UIView, UITextViewDelegate {
         textView.center = CGPoint(x: point.x + textRect.size.width/2, y: point.y)
         
         textView.becomeFirstResponder()
-        let textShape = TextShape()
-        textShape.boundingRect = textView.frame
-        textShape.fontSize = fontSize.rawValue
-        textShape.fontName = "Helvetica Neue"
-        textShape.transform.translation = textView.frame.middle
-        textShape.text = textView.text
-        paintView?.drawingObjects?.add(shape: textShape)
     }
     
     func editText(layer: PaintLayer, frame: CGRect) {
@@ -246,17 +233,8 @@ final class PaintTextManagementView: UIView, UITextViewDelegate {
         
         if let f = FontSize(rawValue: font.pointSize) {
             fontSize = f
-            switch f {
-            case .l:
-                segmentedControl.selectedSegmentIndex = 0
-            case .m:
-                segmentedControl.selectedSegmentIndex = 1
-            case .s:
-                segmentedControl.selectedSegmentIndex = 2
-            }
         } else {
             fontSize = .l
-            segmentedControl.selectedSegmentIndex = 0
         }
         
         layer_id = layer.identifier
@@ -268,14 +246,6 @@ final class PaintTextManagementView: UIView, UITextViewDelegate {
         textView.frame = rect
         
         textView.becomeFirstResponder()
-        
-        let textShape = TextShape()
-        textShape.boundingRect = textView.frame
-        textShape.fontSize = fontSize.rawValue
-        textShape.fontName = "Helvetica Neue"
-        textShape.transform.translation = textView.frame.middle
-        textShape.text = textView.text
-        paintView?.drawingObjects?.update(shape: textShape)
     }
     
     func didEndInputText() {
@@ -342,10 +312,7 @@ final class PaintTextManagementView: UIView, UITextViewDelegate {
         toolbar.sizeToFit()
         let complete = UIBarButtonItem(title: "done", style: .plain, target: self, action: #selector(complete(_:)))
         let spacer = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
-        segmentedControl.addTarget(self, action: #selector(changeSize(_:)), for: .valueChanged)
-        let segment = UIBarButtonItem(customView: segmentedControl)
         toolbar.items = [
-            segment,
             spacer,
             complete
         ]

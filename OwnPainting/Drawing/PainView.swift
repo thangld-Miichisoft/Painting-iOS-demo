@@ -114,18 +114,21 @@ final class PaintView: UIView {
                     layer.strokeColor = ellipse.strokeColor?.cgColor
                     layer.fillColor = UIColor.clear.cgColor
                     layer.lineWidth = ellipse.strokeWidth
-//                    layer.baseLineWidth = 5
-                }else if let textShape = object as? TextShape {
+                    
+                }else if let textShape = object as? TextShape, !textShape.text.isEmpty{
                     let boundingRect = textShape.boundingRect
+                    let translation = textShape.transform.translation
+                    let a = CGPoint(x: translation.x + boundingRect.origin.x, y: translation.y + boundingRect.origin.y)
                     layer.type = .text
                     let text = textShape.text
-                    let fontSize = textShape.fontSize
-                    let x = boundingRect.origin.x
-                    let y = boundingRect.origin.y
+                    let fontSize = textShape.fontSize + 50
+                    let x = a.x
+                    let y = a.y
                     let width = boundingRect.size.width
                     let height = boundingRect.size.height
                     layer.points[0].append(CGPoint(x: x, y: y))
                     layer.points[0].append(CGPoint(x: x + width, y: y + height))
+                    layer.fontSize = textShape.fontSize
                     let style = NSMutableParagraphStyle()
                     style.alignment = .left
                     style.lineBreakMode = .byCharWrapping
@@ -134,11 +137,11 @@ final class PaintView: UIView {
 
                     let dict: [NSAttributedString.Key: Any] = [
                         NSAttributedString.Key.font:  textShape.font,
-                        NSAttributedString.Key.foregroundColor: strokeColor
+                        NSAttributedString.Key.foregroundColor: strokeColor,
                     ]
                     layer.text = NSAttributedString(string: text ?? "", attributes: dict)
                     print("add Text")
-                }else if let pen = object as? PenShape {
+                }else if let pen = object as? PenShape, !pen.segments.isEmpty {
                     layer.type = .freehand
                     let segments = pen.segments
                     let strokeColor = pen.strokeColor
@@ -1910,89 +1913,75 @@ extension PaintView: PaintSelectNavigationViewDelegate {
 extension PaintView {
    
     
-    func save(layer_id: String, completion: (() -> Void)?) {
-        
-        
+    func save(completion: ((Drawing?) -> Void)?) {
         let contentSize = bounds.size
         let contentsScale = self.contentsScale
-        
+        let  drawingSave = Drawing(size: contentSize)
         let layers = layer.sublayers?.compactMap({ $0 as? PaintLayer }) ?? []
-        let shapes: [ShapeCustom] = []
         DispatchQueue.global(qos: .userInitiated).async(execute: { [weak self] in
             defer {
                 DispatchQueue.main.sync(execute: { [weak self] in
                     self?.reinitializeUndo()
-                    completion?()
+                    completion?(drawingSave)
                 })
             }
             
             let dateUtil = DateUtil()
             let dateStr = dateUtil.getJSTDateString(.DateTime_Hyphen)
             
-//            var plan_id = ""
-//            
-//            guard !plan_id.isEmpty else {
-//                return
-//            }
-            
+            var shapes = [Shape]()
             for layer in layers {
                 switch layer.type {
-                case .oval:
-//                    let a = [layer.points[0][0].x, layer.points[0][0].y]
-//                    let b = [layer.points[0][3].x, layer.points[0][3].y]
-//                    let shape = Shape(a: a, b: b, boundingRect: nil, fillColor: layer.fillColor, strokeColor: layer.strokeColor, strokeWidth: layer.lineWidth, fontName: nil, fontSize: nil, id: layer.identifier, text: nil, transform: nil, type: .ellipse)
-                    print("")
-                    
                 case .freehand:
-                    print(layer.points)
-                    let points = layer.points
-                    var segments: [Segment] = []
-                    var pointBefore: [CGFloat]!
-                    var startPoint: [CGFloat]!
-                    for i in 0 ..< points.count {
-                        for j in 0 ..< points[i].count - 1 {
-                            let a: [CGFloat]!
-                            if j != 0 {
-                                a = pointBefore
-                            } else {
-                                let x: CGFloat = points[i][j].x
-                                let y: CGFloat = points[i][j].y
-                                a = [x,y]
-                                startPoint = a
+                    let pen = PenShape()
+                    if let points = layer.points.first {
+                        var segments: [PenLineSegment] = []
+                        for (index, item) in points.enumerated(){
+                            if (index + 1) < points.count {
+                                let a = points[index]
+                                let b = points[index + 1]
+                                let segment = PenLineSegment(a: a, b: b, width: 3.0)
+                                segments.append(segment)
                             }
-
                             
-                            let x1: CGFloat = points[i][j+1].x
-                            let y1: CGFloat = points[i][j+1].y
-                            let b = [x1, y1]
-                            
-                            pointBefore = b
-                            let segment = Segment(a: a, b: b, width: 5)
-                            segments.append(segment)
-
                         }
-                    }
-                    let encoder = JSONEncoder()
-                    if let jsonData = try? encoder.encode(segments) {
-                        if let jsonString = String(data: jsonData, encoding: . utf8) {
-                        print(jsonString)
+                        pen.segments = segments
+                        if let start = points.first {
+                            pen.start = start
                         }
+                        pen.isEraser = false
+                        pen.isFinished = true
+                        pen.id = layer.identifier
+                        drawingSave.add(shape: pen)
                     }
-//                    print(segments)
-
+                    
+                    break
+                case.oval:
+                    if let points = layer.points.first,  points.count > 3, let a = points.first, let b = points.last {
+                        let ellipse = EllipseShape()
+                        ellipse.a = a
+                        ellipse.b = b
+                        ellipse.fillColor = .clear
+                        ellipse.strokeColor = .red
+                        ellipse.strokeWidth = 3.0
+                        ellipse.id = layer.identifier
+                        drawingSave.add(shape: ellipse)
+                    }
+                    break
                 case .text:
-                    print(layer.points)
+                    if let text = layer.text?.string {
+                        let textShape = TextShape()
+                        textShape.fillColor = .red
+                        textShape.fontSize = layer.fontSize
+                        textShape.fontName = layer.fontName
+                        textShape.text = layer.text?.string ?? ""
+                        drawingSave.add(shape: textShape)
+                        textShape.id = layer.identifier
+                    }
+                    break
                 default:
                     break
                 }
-                print(layer.operation)
-            }
-            
-            guard let deletes = self?.trashBox else {
-                return
-            }
-            for (key, val) in deletes {
-                
             }
         })
     }
@@ -2308,7 +2297,7 @@ extension PaintView {
                 let dict: [NSAttributedString.Key: Any] = [
                     NSAttributedString.Key.paragraphStyle: style,
                     NSAttributedString.Key.kern: 0.0,
-                    NSAttributedString.Key.font: UIFont(name: "IPAexGothic", size: fontSize)!,
+                    NSAttributedString.Key.font: UIFont(name: "Helvetica Neue", size: fontSize)!,
                     NSAttributedString.Key.foregroundColor: strokeColor
                 ]
                 

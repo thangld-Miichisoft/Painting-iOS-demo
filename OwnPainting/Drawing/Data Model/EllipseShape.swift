@@ -17,7 +17,7 @@ public class EllipseShape:
   public var id: String = UUID().uuidString
   public var a: CGPoint = .zero
   public var b: CGPoint = .zero
-  public var strokeColor: UIColor? = .black
+  public var strokeColor: UIColor? = .red
   public var fillColor: UIColor? = .clear
   public var strokeWidth: CGFloat = 10
   public var capStyle: CGLineCap = .round

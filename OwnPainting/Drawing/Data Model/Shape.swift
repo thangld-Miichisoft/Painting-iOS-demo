@@ -95,7 +95,7 @@ public protocol ShapeWithStrokeState: AnyObject {
 
 extension ShapeWithStrokeState {
   public func apply(userSettings: UserSettings) {
-    strokeColor = userSettings.strokeColor ?? .black
+    strokeColor = userSettings.strokeColor ?? .red
     strokeWidth = userSettings.strokeWidth
   }
 }

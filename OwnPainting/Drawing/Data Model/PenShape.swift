@@ -28,7 +28,7 @@ public class PenShape: Shape, ShapeWithStrokeState, ShapeSelectable {
   public var id: String = UUID().uuidString
   public var isFinished = true
   public var start: CGPoint = .zero
-  public var strokeColor: UIColor = .black
+  public var strokeColor: UIColor = .red
   public var strokeWidth: CGFloat = 10
   public var segments: [PenLineSegment] = []
   public var isEraser: Bool = false

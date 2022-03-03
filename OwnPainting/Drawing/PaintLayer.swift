@@ -45,7 +45,7 @@ final class PaintLayer: CAShapeLayer {
                 let layer = CAShapeLayer()
                 layer.name = SublayerName.value.rawValue
                 layer.lineWidth = 1
-                layer.strokeColor = UIColor.black.cgColor
+                layer.strokeColor = UIColor.red.cgColor
                 layer.fillColor = strokeColor
                 addSublayer(layer)
             }
@@ -64,21 +64,18 @@ final class PaintLayer: CAShapeLayer {
     internal var number: Double?
     internal var baseLineWidth: CGFloat = 0
     internal var operation: Operation = .default
+    internal var fontSize: CGFloat = 45.0
+    internal var fontName: String = "Helvetica Neue"
     
     internal var navigationPoint: [Int: CGPoint]? {
-        if type == .line || type == .arrow {
-            return [
-                PaintSelectNavigationView.Point.start.toInt(): points[0][0],
-                PaintSelectNavigationView.Point.end.toInt(): points[0][1]
-            ]
-        } else if type == .rect || type == .oval || type == .cross || type == .rulerRect || type == .areaRect {
+        if type == .oval  {
             var dic = [Int: CGPoint]()
             dic[PaintSelectNavigationView.Point.upperLeft.toInt()] = points[0][0]
             dic[PaintSelectNavigationView.Point.upperRight.toInt()] = points[0][1]
             dic[PaintSelectNavigationView.Point.bottomLeft.toInt()] = points[0][2]
             dic[PaintSelectNavigationView.Point.bottomRight.toInt()] = points[0][3]
             return dic
-        } else if type == .freehand || type == .pen || type == .highlighter || type == .rulerFreehand || type == .areaFreehand {
+        } else if type == .freehand {
             guard let rect = path?.boundingBox else {
                 return nil
             }
@@ -94,15 +91,6 @@ final class PaintLayer: CAShapeLayer {
                 PaintSelectNavigationView.Point.centerLeft.toInt(): CGPoint(x: points[0][0].x, y: (points[0][0].y + points[0][1].y) / 2),
                 PaintSelectNavigationView.Point.centerRight.toInt(): CGPoint(x: points[0][1].x, y: (points[0][0].y + points[0][1].y) / 2)
             ]
-        } else if type == .rulerBase || type == .rulerLine {
-            return [PaintSelectNavigationView.Point.start.toInt(): points[0][0],
-                    PaintSelectNavigationView.Point.end.toInt(): points[0][1]]
-        } else if type == .rulerPolygon || type == .areaPolygon {
-            var dic = [Int: CGPoint]()
-            for i in 0 ..< points[0].count {
-                dic[i] = points[0][i]
-            }
-            return dic
         }
         return nil
     }
@@ -206,7 +194,7 @@ final class PaintLayer: CAShapeLayer {
             }
             self.path = path.cgPath
             
-        } else if type == .rect || type == .oval || type == .cross {
+        } else if type == .oval{
             guard points.count == 1, points[0].count == 4 else {
                 return
             }
@@ -216,23 +204,11 @@ final class PaintLayer: CAShapeLayer {
             
             let rect: CGRect = CGRect(x: points[0][0].x, y: points[0][0].y, width: width, height: height)
             
-            if type == .rect {
-                path = UIBezierPath(rect: rect).cgPath
-            } else if type == .oval {
-                path = UIBezierPath(ovalIn: rect).cgPath
-            } else if type == .cross {
-                let path: UIBezierPath = UIBezierPath()
-                path.move(to: points[0][0])
-                path.addLine(to: points[0][3])
-                path.move(to: points[0][1])
-                path.addLine(to: points[0][2])
-                self.path = path.cgPath
-            }
+            path = UIBezierPath(ovalIn: rect).cgPath
             
-        } else if type == .freehand || type == .pen || type == .highlighter {
+        } else if type == .freehand{
             
             let path: UIBezierPath = UIBezierPath()
-//            lineWidth = 1
             
             for i: Int in 0 ..< points.count {
                 guard points[i].count > 1 else { continue }
