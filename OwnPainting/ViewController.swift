@@ -49,7 +49,17 @@ class ViewController: UIViewController {
         undoCount = 0
         redoCount = 0
         
+        let string = JSONString.stringEllipse
+        let dataJson = string.data(using: .utf8)!
         
+        do {
+            if let b = try? JSONDecoder().decode(DrawingObject.self, from: dataJson) {
+                paintView.drawingObjects = b
+            }
+            
+        } catch let error as NSError {
+            print(error)
+        }
     }
     
 
@@ -79,6 +89,10 @@ class ViewController: UIViewController {
     }
     @IBAction func removeLayer(_ sender: Any) {
         paintView.removeSelectLayers()
+    }
+    @IBAction func saveDrawing(_ sender: Any) {
+        paintView.cancelSelectLayers()
+        paintView.save(layer_id: "", completion: nil)
     }
     
 }

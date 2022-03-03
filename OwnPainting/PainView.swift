@@ -91,6 +91,87 @@ final class PaintView: UIView {
     // TODO: Presenterに移動
     
     internal var paintType: PaintType = .freehand
+    internal var drawingObjects: DrawingObject? {
+        didSet {
+            guard let drawingObjects = drawingObjects else {
+                return
+            }
+            for object in drawingObjects.shapes {
+                let layer = PaintLayer()
+                layer.identifier = object.id
+                switch object.type {
+                case .ellipse:
+                    layer.type = .oval
+                    guard let a = object.a, let b = object.b else { return }
+                    guard a.count == 2, b.count == 2 else { return }
+                    let point0 = CGPoint(x: a[0], y: a[1])
+                    let point1 = CGPoint(x: b[0], y: a[1])
+                    let point2 = CGPoint(x: a[0], y: b[1])
+                    let point3 = CGPoint(x: b[0], y: b[1])
+                    layer.points[0].append(point0)
+                    layer.points[0].append(point1)
+                    layer.points[0].append(point2)
+                    layer.points[0].append(point3)
+                    layer.strokeColor = UIColor(hexString1: object.strokeColor!).cgColor
+                    layer.fillColor = UIColor(hexString1: object.fillColor!).cgColor
+                    layer.lineWidth = CGFloat(object.strokeWidth ?? 5)
+                    layer.baseLineWidth = 5
+                    
+                    
+                case .freehand:
+                    layer.type = .freehand
+                    guard let segments = object.segments, let strokeColor = object.strokeColor, let lineWidth = object.strokeWidth else { return }
+                    for (index, segment) in segments.enumerated() {
+                        if index == 0 {
+                            let point1 = CGPoint(x: segment.a[0], y: segment.a[1])
+                            let point2 = CGPoint(x: segment.b[0], y: segment.b[1])
+                            layer.points[0].append(point1)
+                            layer.points[0].append(point2)
+
+                        } else {
+                            let point = CGPoint(x: segment.b[0], y: segment.b[1])
+                            layer.points[0].append(point)
+
+                        }
+                    }
+                    layer.lineWidth = CGFloat(lineWidth)
+                    layer.strokeColor = UIColor(hexString1: strokeColor).cgColor
+                    layer.fillColor = UIColor.clear.cgColor
+                    layer.baseLineWidth = 5
+                    print("start pen")
+                case .text:
+                    guard let boundingRect = object.boundingRect, boundingRect.count == 2 else { return }
+                    layer.type = .text
+//                    layer.fillColor = UIColor(hexString1: object.fillColor ?? ).cgColor
+                    let text = object.text
+                    let fontSize = object.fontSize
+                    guard let x = boundingRect[0][0],
+                          let y = boundingRect[0][1],
+                          let width = boundingRect[1][0],
+                          let height = boundingRect[1][1] else { return }
+                    layer.points[0].append(CGPoint(x: x, y: y))
+                    layer.points[0].append(CGPoint(x: x + width, y: y + height))
+                    let style = NSMutableParagraphStyle()
+                    style.alignment = .left
+                    style.lineBreakMode = .byCharWrapping
+                    let strokeColor = UIColor.clear.cgColor
+
+
+                    let dict: [NSAttributedString.Key: Any] = [
+                        NSAttributedString.Key.paragraphStyle: style,
+                        NSAttributedString.Key.kern: 0.0,
+                        NSAttributedString.Key.font:  UIFont.systemFont(ofSize: CGFloat(fontSize ?? 0)),
+                        NSAttributedString.Key.foregroundColor: strokeColor
+                    ]
+                    layer.text = NSAttributedString(string: text ?? "", attributes: dict)
+                    print("add Text")
+
+                }
+                layer.draw()
+                self.layer.addSublayer(layer)
+            }
+        }
+    }
     internal var paintColor: UIColor = UIColor.red {
         didSet {
             guard let layers = selectLayers else {
@@ -1271,6 +1352,7 @@ final class PaintView: UIView {
             } else {
                 layer.type = .freehand
                 layer.lineWidth = lineWidth * contentsScale
+                layer.baseLineWidth = lineWidth
             }
             layer.name = drawing
             if paintType == .highlighter {
@@ -2101,7 +2183,7 @@ extension PaintView {
         let contentsScale = self.contentsScale
         
         let layers = layer.sublayers?.compactMap({ $0 as? PaintLayer }) ?? []
-        
+        let shapes: [Shape] = []
         DispatchQueue.global(qos: .userInitiated).async(execute: { [weak self] in
             defer {
                 DispatchQueue.main.sync(execute: { [weak self] in
@@ -2113,14 +2195,63 @@ extension PaintView {
             let dateUtil = DateUtil()
             let dateStr = dateUtil.getJSTDateString(.DateTime_Hyphen)
             
-            var plan_id = ""
-            
-            guard !plan_id.isEmpty else {
-                return
-            }
+//            var plan_id = ""
+//            
+//            guard !plan_id.isEmpty else {
+//                return
+//            }
             
             for layer in layers {
-                
+                switch layer.type {
+                case .oval:
+//                    let a = [layer.points[0][0].x, layer.points[0][0].y]
+//                    let b = [layer.points[0][3].x, layer.points[0][3].y]
+//                    let shape = Shape(a: a, b: b, boundingRect: nil, fillColor: layer.fillColor, strokeColor: layer.strokeColor, strokeWidth: layer.lineWidth, fontName: nil, fontSize: nil, id: layer.identifier, text: nil, transform: nil, type: .ellipse)
+                    print("")
+                    
+                case .freehand:
+                    print(layer.points)
+                    let points = layer.points
+                    var segments: [Segment] = []
+                    var pointBefore: [CGFloat]!
+                    var startPoint: [CGFloat]!
+                    for i in 0 ..< points.count {
+                        for j in 0 ..< points[i].count - 1 {
+                            let a: [CGFloat]!
+                            if j != 0 {
+                                a = pointBefore
+                            } else {
+                                let x: CGFloat = points[i][j].x
+                                let y: CGFloat = points[i][j].y
+                                a = [x,y]
+                                startPoint = a
+                            }
+
+                            
+                            let x1: CGFloat = points[i][j+1].x
+                            let y1: CGFloat = points[i][j+1].y
+                            let b = [x1, y1]
+                            
+                            pointBefore = b
+                            let segment = Segment(a: a, b: b, width: 5)
+                            segments.append(segment)
+
+                        }
+                    }
+                    let encoder = JSONEncoder()
+                    if let jsonData = try? encoder.encode(segments) {
+                        if let jsonString = String(data: jsonData, encoding: . utf8) {
+                        print(jsonString)
+                        }
+                    }
+//                    print(segments)
+
+                case .text:
+                    print(layer.points)
+                default:
+                    break
+                }
+                print(layer.operation)
             }
             
             guard let deletes = self?.trashBox else {
@@ -2132,6 +2263,12 @@ extension PaintView {
         })
     }
     
+    func drawSanaPaintLayer(id: String, type: String) -> PaintLayer? {
+        let layer = PaintLayer()
+        layer.identifier = id
+        
+        return nil
+    }
    
     
     private func paintLayer(id: String, category: Int, type: Int, properties: String, geometry: String) -> PaintLayer? {

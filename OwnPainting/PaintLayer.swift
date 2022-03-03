@@ -232,6 +232,7 @@ final class PaintLayer: CAShapeLayer {
         } else if type == .freehand || type == .pen || type == .highlighter {
             
             let path: UIBezierPath = UIBezierPath()
+//            lineWidth = 1
             
             for i: Int in 0 ..< points.count {
                 guard points[i].count > 1 else { continue }
@@ -1055,28 +1056,17 @@ final class PaintLayer: CAShapeLayer {
         var type: Int = 0
         var properties: String = ""
         var path: String = ""
-        let w: CGFloat = baseLineWidth / contentsSize.height * 1000
+        let w: CGFloat = 5//baseLineWidth / contentsSize.height * 1000
         
-        var strokeColor = "sc=\(UIColor(cgColor: strokeCGColor).toHexString().uppercased())"
-        var fillColor = "fc=\(UIColor(cgColor: fillCGColor).toHexString().uppercased())"
-        let lineWidth = "w=\(w)"
-        var lineCap = "lc="
-        if self.lineCap == CAShapeLayerLineCap.round {
-            lineCap += "r"
-        } else if self.lineCap == CAShapeLayerLineCap.square {
-            lineCap += "s"
-        } else {
-            // CAShapeLayerLineCap.butt
-            lineCap += "b"
-        }
-        let opacity = "o=\(self.opacity)"
-        
+        var strokeColor = "sc=\(UIColor(cgColor: strokeCGColor).hexString)"
+        var fillColor = "fc=\(UIColor(cgColor: fillCGColor).hexString)"
+
         if self.type == .line || self.type == .arrow || self.type == .oval || self.type == .rect || self.type == .cross {
             
             category = 3
             
-            let point0 = CGPoint(x: points[0][0].x / contentsSize.width * 1000.0, y: points[0][0].y / contentsSize.height * 1000.0)
-            let point1 = CGPoint(x: points[0][1].x / contentsSize.width * 1000.0, y: points[0][1].y / contentsSize.height * 1000.0)
+            let point0 = CGPoint(x: points[0][0].x, y: points[0][0].y)
+            let point1 = CGPoint(x: points[0][1].x, y: points[0][1].y)
             
             if self.type == .line || self.type == .arrow {
                 if self.type == .line {
@@ -1090,8 +1080,8 @@ final class PaintLayer: CAShapeLayer {
                 path = "\(point0.x),\(point0.y)|\(point1.x),\(point1.y)"
                 
             } else {
-                let point2 = CGPoint(x: points[0][2].x / contentsSize.width * 1000.0, y: points[0][2].y / contentsSize.height * 1000.0)
-                let point3 = CGPoint(x: points[0][3].x / contentsSize.width * 1000.0, y: points[0][3].y / contentsSize.height * 1000.0)
+                let point2 = CGPoint(x: points[0][2].x, y: points[0][2].y )
+                let point3 = CGPoint(x: points[0][3].x, y: points[0][3].y)
                 
                 properties = "\(strokeColor),\(lineWidth),\(lineCap),\(opacity)"
                 
@@ -1132,16 +1122,32 @@ final class PaintLayer: CAShapeLayer {
                 type = 1
                 properties = "\(strokeColor),\(lineWidth),\(lineCap)"
             }
-            
+            var segments: [Any] = []
+            var pointBefore: [CGFloat]!
             for i in 0 ..< points.count {
                 for j in 0 ..< points[i].count {
-                    let x: CGFloat = points[i][j].x / contentsSize.width * 1000
-                    let y: CGFloat = points[i][j].y / contentsSize.height * 1000
-                    path += "\(x),\(y)"
-                    
-                    if j < points[i].count - 1 {
-                        path += "|"
+                    let a: [CGFloat]!
+                    if j != 0 {
+                        a = pointBefore
+                    } else {
+                        let x: CGFloat = points[i][j].x
+                        let y: CGFloat = points[i][j].y
+                        a = [x,y]
                     }
+
+                    
+                    let x1: CGFloat = points[i][j+1].x
+                    let y1: CGFloat = points[i][j+1].y
+                    let b = [x1, y1]
+                    
+                    pointBefore = b
+                    let segment: [String: Any] = [
+                        "a": a,
+                        "b": b,
+                        "wdith": w
+                    ]
+                    segments.append(segment)
+
                 }
                 path += "\n"
             }
@@ -1183,8 +1189,7 @@ final class PaintLayer: CAShapeLayer {
            
             // とりあえずここを直す
             if self.type == .rulerBase {
-                type = 1
-                path = "\(strokeColor.replace(target: "sc=", withString: ""))|\(lineWidth.replace(target: "w=", withString: ""))|\(lineCap.replace(target: "lc=", withString: ""))|\(opacity.replace(target: "o=", withString: ""))|\(x1),\(y1)|\(x2),\(y2)|\(Double(number ?? 0.0))"
+
             } else {
                 type = 2
                 properties = "\(strokeColor),\(lineWidth),\(lineCap),\(opacity)"

@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4C02284827D050DD005C53BC /* Drawing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C02284727D050DD005C53BC /* Drawing.swift */; };
+		4C02284927D05191005C53BC /* json.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C02284427D05084005C53BC /* json.swift */; };
 		4C9DAB8E27C5CD7B009DBAF5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C9DAB8D27C5CD7B009DBAF5 /* AppDelegate.swift */; };
 		4C9DAB9027C5CD7B009DBAF5 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C9DAB8F27C5CD7B009DBAF5 /* SceneDelegate.swift */; };
 		4C9DAB9227C5CD7B009DBAF5 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C9DAB9127C5CD7B009DBAF5 /* ViewController.swift */; };
@@ -24,6 +26,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		4C02284427D05084005C53BC /* json.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = json.swift; sourceTree = "<group>"; };
+		4C02284727D050DD005C53BC /* Drawing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Drawing.swift; sourceTree = "<group>"; };
 		4C9DAB8A27C5CD7B009DBAF5 /* OwnPainting.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OwnPainting.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4C9DAB8D27C5CD7B009DBAF5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		4C9DAB8F27C5CD7B009DBAF5 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -55,6 +59,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		4C02284627D050D1005C53BC /* Data Model */ = {
+			isa = PBXGroup;
+			children = (
+				4C02284727D050DD005C53BC /* Drawing.swift */,
+			);
+			path = "Data Model";
+			sourceTree = "<group>";
+		};
 		4C9DAB8127C5CD7B009DBAF5 = {
 			isa = PBXGroup;
 			children = (
@@ -77,6 +89,8 @@
 				4C9DAB8D27C5CD7B009DBAF5 /* AppDelegate.swift */,
 				4C9DAB8F27C5CD7B009DBAF5 /* SceneDelegate.swift */,
 				4C9DAB9127C5CD7B009DBAF5 /* ViewController.swift */,
+				4C02284427D05084005C53BC /* json.swift */,
+				4C02284627D050D1005C53BC /* Data Model */,
 				4C9DABA127C5CDA1009DBAF5 /* PainView.swift */,
 				4C9DABA727C5D078009DBAF5 /* PaintTextManagementView.swift */,
 				4C9DABA527C5CF6D009DBAF5 /* PaintLayer.swift */,
@@ -183,7 +197,9 @@
 				4C9DAB9227C5CD7B009DBAF5 /* ViewController.swift in Sources */,
 				4C9DAB8E27C5CD7B009DBAF5 /* AppDelegate.swift in Sources */,
 				4C9DABBA27C5D714009DBAF5 /* UIColorExtension.swift in Sources */,
+				4C02284927D05191005C53BC /* json.swift in Sources */,
 				4C9DABB827C5D64B009DBAF5 /* ObjcUtility.m in Sources */,
+				4C02284827D050DD005C53BC /* Drawing.swift in Sources */,
 				4C9DABBC27C5D763009DBAF5 /* StringExtension.swift in Sources */,
 				4C9DAB9027C5CD7B009DBAF5 /* SceneDelegate.swift in Sources */,
 			);
