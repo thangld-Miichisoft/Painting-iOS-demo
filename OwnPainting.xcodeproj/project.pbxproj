@@ -7,6 +7,22 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		017BBC9527D0C0B2008D7CDD /* DrawingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 017BBC9327D0C0B2008D7CDD /* DrawingViewController.swift */; };
+		017BBC9627D0C0B2008D7CDD /* DrawingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 017BBC9427D0C0B2008D7CDD /* DrawingViewController.xib */; };
+		017BBCAB27D0CAE0008D7CDD /* UIApplication+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 017BBC9927D0CAE0008D7CDD /* UIApplication+extension.swift */; };
+		017BBCAC27D0CAE0008D7CDD /* UIImageView+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 017BBC9A27D0CAE0008D7CDD /* UIImageView+extension.swift */; };
+		017BBCAD27D0CAE0008D7CDD /* UIFont+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 017BBC9B27D0CAE0008D7CDD /* UIFont+extension.swift */; };
+		017BBCAE27D0CAE0008D7CDD /* UIColor+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 017BBC9C27D0CAE0008D7CDD /* UIColor+extension.swift */; };
+		017BBCAF27D0CAE0008D7CDD /* Drawing+Signature+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 017BBC9D27D0CAE0008D7CDD /* Drawing+Signature+Extension.swift */; };
+		017BBCB027D0CAE0008D7CDD /* RxExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 017BBC9E27D0CAE0008D7CDD /* RxExtension.swift */; };
+		017BBCB127D0CAE0008D7CDD /* Collection+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 017BBC9F27D0CAE0008D7CDD /* Collection+Extension.swift */; };
+		017BBCB227D0CAE0008D7CDD /* UIButton+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 017BBCA027D0CAE0008D7CDD /* UIButton+extension.swift */; };
+		017BBCB527D0CAE0008D7CDD /* UIImage+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 017BBCA327D0CAE0008D7CDD /* UIImage+extension.swift */; };
+		017BBCB827D0CAE1008D7CDD /* String+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 017BBCA627D0CAE0008D7CDD /* String+extension.swift */; };
+		017BBCB927D0CAE1008D7CDD /* RxActivityIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 017BBCA727D0CAE0008D7CDD /* RxActivityIndicator.swift */; };
+		017BBCBB27D0CAE1008D7CDD /* UITextField+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 017BBCA927D0CAE0008D7CDD /* UITextField+extension.swift */; };
+		017BBCC027D0D16C008D7CDD /* SampleJson.swift in Sources */ = {isa = PBXBuildFile; fileRef = 017BBCBF27D0D16C008D7CDD /* SampleJson.swift */; };
+		017BBCC227D0D500008D7CDD /* jsonSample.json in Resources */ = {isa = PBXBuildFile; fileRef = 017BBCC127D0D4FF008D7CDD /* jsonSample.json */; };
 		4C02284827D050DD005C53BC /* Drawing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C02284727D050DD005C53BC /* Drawing.swift */; };
 		4C02284927D05191005C53BC /* json.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C02284427D05084005C53BC /* json.swift */; };
 		4C9DAB8E27C5CD7B009DBAF5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C9DAB8D27C5CD7B009DBAF5 /* AppDelegate.swift */; };
@@ -23,9 +39,26 @@
 		4C9DABB827C5D64B009DBAF5 /* ObjcUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C9DABB627C5D64B009DBAF5 /* ObjcUtility.m */; };
 		4C9DABBA27C5D714009DBAF5 /* UIColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C9DABB927C5D714009DBAF5 /* UIColorExtension.swift */; };
 		4C9DABBC27C5D763009DBAF5 /* StringExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C9DABBB27C5D763009DBAF5 /* StringExtension.swift */; };
+		BE4FBB7C346C289183A8A964 /* Pods_OwnPainting.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4D134D28549E6B9D48E93E68 /* Pods_OwnPainting.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		017BBC9327D0C0B2008D7CDD /* DrawingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DrawingViewController.swift; sourceTree = "<group>"; };
+		017BBC9427D0C0B2008D7CDD /* DrawingViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DrawingViewController.xib; sourceTree = "<group>"; };
+		017BBC9927D0CAE0008D7CDD /* UIApplication+extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIApplication+extension.swift"; sourceTree = "<group>"; };
+		017BBC9A27D0CAE0008D7CDD /* UIImageView+extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImageView+extension.swift"; sourceTree = "<group>"; };
+		017BBC9B27D0CAE0008D7CDD /* UIFont+extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIFont+extension.swift"; sourceTree = "<group>"; };
+		017BBC9C27D0CAE0008D7CDD /* UIColor+extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIColor+extension.swift"; sourceTree = "<group>"; };
+		017BBC9D27D0CAE0008D7CDD /* Drawing+Signature+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Drawing+Signature+Extension.swift"; sourceTree = "<group>"; };
+		017BBC9E27D0CAE0008D7CDD /* RxExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RxExtension.swift; sourceTree = "<group>"; };
+		017BBC9F27D0CAE0008D7CDD /* Collection+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Collection+Extension.swift"; sourceTree = "<group>"; };
+		017BBCA027D0CAE0008D7CDD /* UIButton+extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIButton+extension.swift"; sourceTree = "<group>"; };
+		017BBCA327D0CAE0008D7CDD /* UIImage+extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+extension.swift"; sourceTree = "<group>"; };
+		017BBCA627D0CAE0008D7CDD /* String+extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+extension.swift"; sourceTree = "<group>"; };
+		017BBCA727D0CAE0008D7CDD /* RxActivityIndicator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RxActivityIndicator.swift; sourceTree = "<group>"; };
+		017BBCA927D0CAE0008D7CDD /* UITextField+extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UITextField+extension.swift"; sourceTree = "<group>"; };
+		017BBCBF27D0D16C008D7CDD /* SampleJson.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SampleJson.swift; sourceTree = "<group>"; };
+		017BBCC127D0D4FF008D7CDD /* jsonSample.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = jsonSample.json; sourceTree = "<group>"; };
 		4C02284427D05084005C53BC /* json.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = json.swift; sourceTree = "<group>"; };
 		4C02284727D050DD005C53BC /* Drawing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Drawing.swift; sourceTree = "<group>"; };
 		4C9DAB8A27C5CD7B009DBAF5 /* OwnPainting.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OwnPainting.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -46,6 +79,9 @@
 		4C9DABB727C5D64B009DBAF5 /* ObjcUtility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ObjcUtility.h; sourceTree = "<group>"; };
 		4C9DABB927C5D714009DBAF5 /* UIColorExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColorExtension.swift; sourceTree = "<group>"; };
 		4C9DABBB27C5D763009DBAF5 /* StringExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringExtension.swift; sourceTree = "<group>"; };
+		4D134D28549E6B9D48E93E68 /* Pods_OwnPainting.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_OwnPainting.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		AC58E6C0F3CE83877DFD8208 /* Pods-OwnPainting.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OwnPainting.release.xcconfig"; path = "Target Support Files/Pods-OwnPainting/Pods-OwnPainting.release.xcconfig"; sourceTree = "<group>"; };
+		C7A07E75C665C40083B7336A /* Pods-OwnPainting.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OwnPainting.debug.xcconfig"; path = "Target Support Files/Pods-OwnPainting/Pods-OwnPainting.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -53,12 +89,52 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BE4FBB7C346C289183A8A964 /* Pods_OwnPainting.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		017BBC9727D0CA93008D7CDD /* Drawing */ = {
+			isa = PBXGroup;
+			children = (
+				4C02284427D05084005C53BC /* json.swift */,
+				017BBCC127D0D4FF008D7CDD /* jsonSample.json */,
+				017BBCBF27D0D16C008D7CDD /* SampleJson.swift */,
+				017BBC9327D0C0B2008D7CDD /* DrawingViewController.swift */,
+				017BBC9427D0C0B2008D7CDD /* DrawingViewController.xib */,
+				4C9DABA127C5CDA1009DBAF5 /* PainView.swift */,
+				4C9DABA727C5D078009DBAF5 /* PaintTextManagementView.swift */,
+				4C9DABA527C5CF6D009DBAF5 /* PaintLayer.swift */,
+				4C9DABA927C5D135009DBAF5 /* PaintSelectNavigationView.swift */,
+				4C9DABA327C5CE62009DBAF5 /* DateUtil.swift */,
+				4C9DABB927C5D714009DBAF5 /* UIColorExtension.swift */,
+				4C9DABBB27C5D763009DBAF5 /* StringExtension.swift */,
+				4C02284627D050D1005C53BC /* Data Model */,
+			);
+			path = Drawing;
+			sourceTree = "<group>";
+		};
+		017BBC9827D0CAE0008D7CDD /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				017BBC9927D0CAE0008D7CDD /* UIApplication+extension.swift */,
+				017BBC9A27D0CAE0008D7CDD /* UIImageView+extension.swift */,
+				017BBC9B27D0CAE0008D7CDD /* UIFont+extension.swift */,
+				017BBC9C27D0CAE0008D7CDD /* UIColor+extension.swift */,
+				017BBC9D27D0CAE0008D7CDD /* Drawing+Signature+Extension.swift */,
+				017BBC9E27D0CAE0008D7CDD /* RxExtension.swift */,
+				017BBC9F27D0CAE0008D7CDD /* Collection+Extension.swift */,
+				017BBCA027D0CAE0008D7CDD /* UIButton+extension.swift */,
+				017BBCA327D0CAE0008D7CDD /* UIImage+extension.swift */,
+				017BBCA627D0CAE0008D7CDD /* String+extension.swift */,
+				017BBCA727D0CAE0008D7CDD /* RxActivityIndicator.swift */,
+				017BBCA927D0CAE0008D7CDD /* UITextField+extension.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
 		4C02284627D050D1005C53BC /* Data Model */ = {
 			isa = PBXGroup;
 			children = (
@@ -72,6 +148,8 @@
 			children = (
 				4C9DAB8C27C5CD7B009DBAF5 /* OwnPainting */,
 				4C9DAB8B27C5CD7B009DBAF5 /* Products */,
+				C354E651ED586E6BFA2DA166 /* Pods */,
+				E152698B715F078B8424C8E3 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -86,18 +164,11 @@
 		4C9DAB8C27C5CD7B009DBAF5 /* OwnPainting */ = {
 			isa = PBXGroup;
 			children = (
+				017BBC9727D0CA93008D7CDD /* Drawing */,
 				4C9DAB8D27C5CD7B009DBAF5 /* AppDelegate.swift */,
 				4C9DAB8F27C5CD7B009DBAF5 /* SceneDelegate.swift */,
 				4C9DAB9127C5CD7B009DBAF5 /* ViewController.swift */,
-				4C02284427D05084005C53BC /* json.swift */,
-				4C02284627D050D1005C53BC /* Data Model */,
-				4C9DABA127C5CDA1009DBAF5 /* PainView.swift */,
-				4C9DABA727C5D078009DBAF5 /* PaintTextManagementView.swift */,
-				4C9DABA527C5CF6D009DBAF5 /* PaintLayer.swift */,
-				4C9DABA927C5D135009DBAF5 /* PaintSelectNavigationView.swift */,
-				4C9DABA327C5CE62009DBAF5 /* DateUtil.swift */,
-				4C9DABB927C5D714009DBAF5 /* UIColorExtension.swift */,
-				4C9DABBB27C5D763009DBAF5 /* StringExtension.swift */,
+				017BBC9827D0CAE0008D7CDD /* Extensions */,
 				4C9DABAB27C5D2DF009DBAF5 /* Objective-C */,
 				4C9DAB9327C5CD7B009DBAF5 /* Main.storyboard */,
 				4C9DAB9627C5CD7D009DBAF5 /* Assets.xcassets */,
@@ -117,6 +188,23 @@
 			path = "Objective-C";
 			sourceTree = "<group>";
 		};
+		C354E651ED586E6BFA2DA166 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				C7A07E75C665C40083B7336A /* Pods-OwnPainting.debug.xcconfig */,
+				AC58E6C0F3CE83877DFD8208 /* Pods-OwnPainting.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
+		E152698B715F078B8424C8E3 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				4D134D28549E6B9D48E93E68 /* Pods_OwnPainting.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -124,9 +212,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 4C9DAB9E27C5CD7D009DBAF5 /* Build configuration list for PBXNativeTarget "OwnPainting" */;
 			buildPhases = (
+				6FD49D0677D34081A2E4D6EA /* [CP] Check Pods Manifest.lock */,
 				4C9DAB8627C5CD7B009DBAF5 /* Sources */,
 				4C9DAB8727C5CD7B009DBAF5 /* Frameworks */,
 				4C9DAB8827C5CD7B009DBAF5 /* Resources */,
+				0878C2C74D6AF770EA50685D /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -177,6 +267,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				4C9DAB9A27C5CD7D009DBAF5 /* LaunchScreen.storyboard in Resources */,
+				017BBCC227D0D500008D7CDD /* jsonSample.json in Resources */,
+				017BBC9627D0C0B2008D7CDD /* DrawingViewController.xib in Resources */,
 				4C9DAB9727C5CD7D009DBAF5 /* Assets.xcassets in Resources */,
 				4C9DAB9527C5CD7B009DBAF5 /* Main.storyboard in Resources */,
 			);
@@ -184,24 +276,80 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		0878C2C74D6AF770EA50685D /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-OwnPainting/Pods-OwnPainting-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-OwnPainting/Pods-OwnPainting-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-OwnPainting/Pods-OwnPainting-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		6FD49D0677D34081A2E4D6EA /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-OwnPainting-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		4C9DAB8627C5CD7B009DBAF5 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				4C9DABA827C5D078009DBAF5 /* PaintTextManagementView.swift in Sources */,
+				017BBCB127D0CAE0008D7CDD /* Collection+Extension.swift in Sources */,
 				4C9DABAA27C5D135009DBAF5 /* PaintSelectNavigationView.swift in Sources */,
 				4C9DABA627C5CF6D009DBAF5 /* PaintLayer.swift in Sources */,
+				017BBCAE27D0CAE0008D7CDD /* UIColor+extension.swift in Sources */,
+				017BBC9527D0C0B2008D7CDD /* DrawingViewController.swift in Sources */,
+				017BBCB927D0CAE1008D7CDD /* RxActivityIndicator.swift in Sources */,
 				4C9DABA227C5CDA2009DBAF5 /* PainView.swift in Sources */,
 				4C9DABA427C5CE62009DBAF5 /* DateUtil.swift in Sources */,
 				4C9DAB9227C5CD7B009DBAF5 /* ViewController.swift in Sources */,
+				017BBCAD27D0CAE0008D7CDD /* UIFont+extension.swift in Sources */,
 				4C9DAB8E27C5CD7B009DBAF5 /* AppDelegate.swift in Sources */,
+				017BBCB827D0CAE1008D7CDD /* String+extension.swift in Sources */,
 				4C9DABBA27C5D714009DBAF5 /* UIColorExtension.swift in Sources */,
+				017BBCAF27D0CAE0008D7CDD /* Drawing+Signature+Extension.swift in Sources */,
+				017BBCB227D0CAE0008D7CDD /* UIButton+extension.swift in Sources */,
 				4C02284927D05191005C53BC /* json.swift in Sources */,
+				017BBCAC27D0CAE0008D7CDD /* UIImageView+extension.swift in Sources */,
 				4C9DABB827C5D64B009DBAF5 /* ObjcUtility.m in Sources */,
 				4C02284827D050DD005C53BC /* Drawing.swift in Sources */,
+				017BBCBB27D0CAE1008D7CDD /* UITextField+extension.swift in Sources */,
+				017BBCAB27D0CAE0008D7CDD /* UIApplication+extension.swift in Sources */,
+				017BBCB527D0CAE0008D7CDD /* UIImage+extension.swift in Sources */,
 				4C9DABBC27C5D763009DBAF5 /* StringExtension.swift in Sources */,
 				4C9DAB9027C5CD7B009DBAF5 /* SceneDelegate.swift in Sources */,
+				017BBCB027D0CAE0008D7CDD /* RxExtension.swift in Sources */,
+				017BBCC027D0D16C008D7CDD /* SampleJson.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -345,13 +493,14 @@
 		};
 		4C9DAB9F27C5CD7D009DBAF5 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = C7A07E75C665C40083B7336A /* Pods-OwnPainting.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = TR2GA38TWN;
+				DEVELOPMENT_TEAM = FLSQXRW6T6;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = OwnPainting/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -359,12 +508,13 @@
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = thangld.OwnPainting;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.vn.miichisoft.demo-drawing";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = "OwnPainting/Objective-C/OwnPainting-Bridging-Header.h";
@@ -376,6 +526,7 @@
 		};
 		4C9DABA027C5CD7D009DBAF5 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = AC58E6C0F3CE83877DFD8208 /* Pods-OwnPainting.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -390,6 +541,7 @@
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
