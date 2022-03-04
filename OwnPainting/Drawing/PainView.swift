@@ -111,7 +111,7 @@ final class PaintView: UIView {
                     layer.points[0].append(point1)
                     layer.points[0].append(point2)
                     layer.points[0].append(point3)
-                    layer.strokeColor = ellipse.strokeColor?.cgColor
+                    layer.strokeColor = UIColor.red.cgColor
                     layer.fillColor = UIColor.clear.cgColor
                     layer.lineWidth = ellipse.strokeWidth
                     
@@ -121,7 +121,6 @@ final class PaintView: UIView {
                     let a = CGPoint(x: translation.x + boundingRect.origin.x, y: translation.y + boundingRect.origin.y)
                     layer.type = .text
                     let text = textShape.text
-                    let fontSize = textShape.fontSize + 50
                     let x = a.x
                     let y = a.y
                     let width = boundingRect.size.width
@@ -140,6 +139,7 @@ final class PaintView: UIView {
                         NSAttributedString.Key.foregroundColor: strokeColor,
                     ]
                     layer.text = NSAttributedString(string: text ?? "", attributes: dict)
+                    layer.fillColor = UIColor.red.cgColor
                     print("add Text")
                 }else if let pen = object as? PenShape, !pen.segments.isEmpty {
                     layer.type = .freehand
@@ -160,9 +160,8 @@ final class PaintView: UIView {
                         }
                     }
                     layer.lineWidth = CGFloat(lineWidth)
-                    layer.strokeColor = pen.strokeColor.cgColor
+                    layer.strokeColor = UIColor.red.cgColor
                     layer.fillColor = UIColor.clear.cgColor
-//                    layer.baseLineWidth = 5
                     print("start pen")
                 }
                 layer.draw()
@@ -1401,7 +1400,7 @@ final class PaintView: UIView {
                 layer.points[0].append(point)
                 layer.points[0].append(point)
             }
-            
+            layer.lineWidth = 3.0
             layer.draw()
             
         } else {
@@ -1424,10 +1423,9 @@ final class PaintView: UIView {
             layer.points[0].append(point)
             layer.points[0].append(point)
             layer.points[0].append(point)
-            
+            layer.lineWidth = 3.0
             layer.draw()
             self.layer.addSublayer(layer)
-            let ellipseShape = EllipseShape()
             print(layer)
         }
     }
@@ -1969,14 +1967,17 @@ extension PaintView {
                     }
                     break
                 case .text:
-                    if let text = layer.text?.string {
+                    if let text = layer.text?.string, !text.isEmpty, let a = layer.points.first?.first, let b = layer.points.first?.last {
                         let textShape = TextShape()
                         textShape.fillColor = .red
                         textShape.fontSize = layer.fontSize
                         textShape.fontName = layer.fontName
-                        textShape.text = layer.text?.string ?? ""
-                        drawingSave.add(shape: textShape)
+                        textShape.text = text
                         textShape.id = layer.identifier
+                        let width = a.x + b.x
+                        let height = a.y + b.y
+                        textShape.boundingRect = CGRect(x: a.x, y: a.y, width: width, height: height)
+                        drawingSave.add(shape: textShape)
                     }
                     break
                 default:

@@ -34,6 +34,8 @@
 		017BBCDA27D0F743008D7CDD /* DrawsanaUtilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 017BBCD927D0F743008D7CDD /* DrawsanaUtilities.swift */; };
 		017BBCDC27D0F78D008D7CDD /* CGPoint+DrawsanaExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 017BBCDB27D0F78D008D7CDD /* CGPoint+DrawsanaExtensions.swift */; };
 		017BBCDE27D0FBF6008D7CDD /* CGRect+DrawsanaExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 017BBCDD27D0FBF6008D7CDD /* CGRect+DrawsanaExtensions.swift */; };
+		017BBCE027D1AB73008D7CDD /* BaseDrawingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 017BBCDF27D1AB73008D7CDD /* BaseDrawingViewModel.swift */; };
+		017BBCE227D1AB8F008D7CDD /* DrawingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 017BBCE127D1AB8F008D7CDD /* DrawingViewModel.swift */; };
 		4C02284827D050DD005C53BC /* DrawingObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C02284727D050DD005C53BC /* DrawingObject.swift */; };
 		4C02284927D05191005C53BC /* json.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C02284427D05084005C53BC /* json.swift */; };
 		4C9DAB8E27C5CD7B009DBAF5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C9DAB8D27C5CD7B009DBAF5 /* AppDelegate.swift */; };
@@ -81,6 +83,8 @@
 		017BBCD927D0F743008D7CDD /* DrawsanaUtilities.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DrawsanaUtilities.swift; sourceTree = "<group>"; };
 		017BBCDB27D0F78D008D7CDD /* CGPoint+DrawsanaExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CGPoint+DrawsanaExtensions.swift"; sourceTree = "<group>"; };
 		017BBCDD27D0FBF6008D7CDD /* CGRect+DrawsanaExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CGRect+DrawsanaExtensions.swift"; sourceTree = "<group>"; };
+		017BBCDF27D1AB73008D7CDD /* BaseDrawingViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseDrawingViewModel.swift; sourceTree = "<group>"; };
+		017BBCE127D1AB8F008D7CDD /* DrawingViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DrawingViewModel.swift; sourceTree = "<group>"; };
 		4C02284427D05084005C53BC /* json.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = json.swift; sourceTree = "<group>"; };
 		4C02284727D050DD005C53BC /* DrawingObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawingObject.swift; sourceTree = "<group>"; };
 		4C9DAB8A27C5CD7B009DBAF5 /* OwnPainting.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OwnPainting.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -164,6 +168,8 @@
 		4C02284627D050D1005C53BC /* Data Model */ = {
 			isa = PBXGroup;
 			children = (
+				017BBCE127D1AB8F008D7CDD /* DrawingViewModel.swift */,
+				017BBCDF27D1AB73008D7CDD /* BaseDrawingViewModel.swift */,
 				017BBCC727D0EFAE008D7CDD /* Drawing.swift */,
 				017BBCCF27D0F022008D7CDD /* EllipseShape.swift */,
 				017BBCD027D0F022008D7CDD /* PenShape.swift */,
@@ -364,6 +370,7 @@
 				4C9DABA627C5CF6D009DBAF5 /* PaintLayer.swift in Sources */,
 				017BBCDE27D0FBF6008D7CDD /* CGRect+DrawsanaExtensions.swift in Sources */,
 				017BBCAE27D0CAE0008D7CDD /* UIColor+extension.swift in Sources */,
+				017BBCE027D1AB73008D7CDD /* BaseDrawingViewModel.swift in Sources */,
 				017BBC9527D0C0B2008D7CDD /* DrawingViewController.swift in Sources */,
 				017BBCC827D0EFAE008D7CDD /* Drawing.swift in Sources */,
 				017BBCD427D0F022008D7CDD /* TextShape.swift in Sources */,
@@ -372,6 +379,7 @@
 				4C9DABA427C5CE62009DBAF5 /* DateUtil.swift in Sources */,
 				4C9DAB9227C5CD7B009DBAF5 /* ViewController.swift in Sources */,
 				017BBCAD27D0CAE0008D7CDD /* UIFont+extension.swift in Sources */,
+				017BBCE227D1AB8F008D7CDD /* DrawingViewModel.swift in Sources */,
 				4C9DAB8E27C5CD7B009DBAF5 /* AppDelegate.swift in Sources */,
 				017BBCDA27D0F743008D7CDD /* DrawsanaUtilities.swift in Sources */,
 				017BBCC427D0DFA3008D7CDD /* KeyedDecodingContainer+DrawsanaExtensions.swift in Sources */,

@@ -21,9 +21,14 @@ class ViewController: UIViewController {
         let drawingViewController = DrawingViewController()
         drawingViewController.modalPresentationStyle = .fullScreen
         drawingViewController.delegate = self
-        self.present(drawingViewController, animated: true) {
+        SampleJson.readJsonDrawing { [weak self] drawing in
+            drawingViewController.drawing = drawing
+            self?.present(drawingViewController, animated: true) {
+                
+            }
             
         }
+        
     }
     
 }

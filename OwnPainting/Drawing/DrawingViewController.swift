@@ -30,6 +30,8 @@ class DrawingViewController: UIViewController {
     @IBOutlet weak var paintView: PaintView!
     
     var delegate: CustomDrawingDelegate!
+    var drawing: Drawing!
+    var viewModel = DrawingViewModel()
     lazy var toolButtons: [UIButton] = {
         return  [
             selectionButton,
@@ -81,27 +83,25 @@ class DrawingViewController: UIViewController {
         paintView.delegate = self
         undoCount = 0
         redoCount = 0
-        
-        let string = JSONString.stringEllipse
-        let dataJson = string.data(using: .utf8)!
-//
-//        do {
-//            if let b = try? JSONDecoder().decode(DrawingObject.self, from: dataJson) {
-//                paintView.drawingObjects = b
-//            }
-//
-//        } catch let error as NSError {
-//            print(error)
-//        }
-        SampleJson.readJsonDrawing { [weak self] drawing in
-            print(drawing)
-            self?.paintView.drawingObjects = drawing
-        }
-////
         applyUndoViewState()
     }
     
-
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        configureLayoutDrawing()
+        
+    }
+    func configureLayoutDrawing(){
+        let size = paintView.frame.size
+        if let sizeDrawing = self.drawing?.size as? CGSize {
+            viewModel.delta = CGSize(width: size.width/sizeDrawing.width, height: size.height/sizeDrawing.height)
+            let newDrawing = self.drawing.copy()
+            let drawing = newDrawing.toResize(with: viewModel.delta)
+            self.paintView.drawingObjects = drawing
+            
+        }
+    }
+    
     @IBAction func undoSelection(_ sender: UIButton) {
         paintView.undo()
         setHighlightColorButton(sender: sender)
