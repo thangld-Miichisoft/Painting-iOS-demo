@@ -1296,7 +1296,7 @@ final class PaintView: UIView {
             if freehandCompletedTimer?.isValid == true {
                 freehandCompletedTimer?.invalidate()
                 
-                layer.opacity = 0.3
+                layer.opacity = 1
                 isFirstMoved = true
                 layer.points.append([])
                 
@@ -1307,7 +1307,7 @@ final class PaintView: UIView {
             freehandCompletedTimer = nil
             
             layer.points[layer.points.count - 1].append(point)
-            
+            layer.lineWidth = 3.0
             layer.draw()
             
         } else {
@@ -1330,15 +1330,8 @@ final class PaintView: UIView {
                 layer.baseLineWidth = lineWidth
             }
             layer.name = drawing
-            if paintType == .highlighter {
-                layer.opacity = 0.3
-            } else {
-                if isOld {
-                    layer.opacity = 0.3
-                } else {
-                    layer.opacity = 0.6
-                }
-            }
+            layer.opacity = 1.0
+            layer.lineWidth = 3.0
             layer.lineCap = CAShapeLayerLineCap.round
             
             isFirstMoved = true
