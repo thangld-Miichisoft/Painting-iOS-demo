@@ -182,7 +182,7 @@ class DrawingViewController: UIViewController {
                 }
             }
         }
-        if sender == moveButton {
+        if sender == moveButton || paintView.paintType == .default {
             mainScrollView.isScrollEnabled = true
         }else {
             mainScrollView.isScrollEnabled = false
@@ -196,16 +196,16 @@ extension DrawingViewController: PaintViewDelegate {
     
    
     func paintView(_ paintView: PaintView, didSelectLayers: [PaintLayer]) {
-        print(didSelectLayers)
         setHighlightColorButton(sender: deleteButton)
         showSelectedShape = true
         applyUndoViewState()
+        mainScrollView.isScrollEnabled = false
     }
     
     func paintView(_ paintView: PaintView, didDeSelectLayers: [PaintLayer]) {
-        print(didDeSelectLayers)
         showSelectedShape = false
         applyUndoViewState()
+        mainScrollView.isScrollEnabled = true
     }
     
     func paintView(_ paintView: PaintView, isTouchLayers: [PaintLayer]) {
