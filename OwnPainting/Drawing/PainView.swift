@@ -130,7 +130,7 @@ final class PaintView: UIView {
                     layer.fontSize = textShape.fontSize
                     let style = NSMutableParagraphStyle()
                     style.alignment = .left
-                    style.lineBreakMode = .byCharWrapping
+                    style.lineBreakMode = .byClipping
                     let strokeColor = UIColor.red.cgColor
 
 
@@ -1535,23 +1535,7 @@ extension PaintView: PaintSelectNavigationViewDelegate {
             return
         }
         
-        if layer.type == .line || layer.type == .arrow {
-            
-            switch point {
-            case .start:
-                layer.points[0][0].x += delta.x
-                layer.points[0][0].y += delta.y
-                
-            case .end:
-                layer.points[0][1].x += delta.x
-                layer.points[0][1].y += delta.y
-                
-            default:
-                break
-            }
-            layer.draw()
-            
-        } else if layer.type == .rect || layer.type == .oval || layer.type == .cross {
+        if layer.type == .oval  {
             
             switch point {
             case .upperLeft:
@@ -1584,254 +1568,6 @@ extension PaintView: PaintSelectNavigationViewDelegate {
             
             layer.draw()
             
-        } else if layer.type == .freehand || layer.type == .pen || layer.type == .highlighter || layer.type == .rulerFreehand || layer.type == .areaFreehand {
-            guard let rect = layer.path?.boundingBox else {
-                return
-            }
-            
-            var x: CGFloat = delta.x
-            var y: CGFloat = delta.y
-            let spacing: CGFloat = 50
-            
-            switch point {
-            case .upperLeft:
-                
-                if rect.maxX - rect.minX == 0 || (x >= 0 && rect.minX + x + spacing >= rect.maxX) {
-                    x = 1
-                } else {
-                    x = 1 - x / (rect.maxX - rect.minX)
-                }
-                if rect.maxY - rect.minY == 0 || (y >= 0 && rect.minY + y + spacing >= rect.maxY) {
-                    y = 1
-                } else {
-                    y = 1 - y / (rect.maxY - rect.minY)
-                }
-                
-                for i: Int in 0 ..< layer.points.count {
-                    for j: Int in 0 ..< layer.points[i].count {
-                        layer.points[i][j] = CGPoint(x: rect.maxX - (rect.maxX - layer.points[i][j].x) * x, y: rect.maxY - (rect.maxY - layer.points[i][j].y) * y)
-                    }
-                }
-                
-            case .upperRight:
-                
-                if rect.maxX - rect.minX == 0 || (x <= 0 && rect.maxX + x - spacing <= rect.minX) {
-                    x = 1
-                } else {
-                    x = 1 + x / (rect.maxX - rect.minX)
-                }
-                if rect.maxY - rect.minY == 0 || (y >= 0 && rect.minY + y + spacing >= rect.maxY) {
-                    y = 1
-                } else {
-                    y = 1 - y / (rect.maxY - rect.minY)
-                }
-                
-                for i: Int in 0 ..< layer.points.count {
-                    for j: Int in 0 ..< layer.points[i].count {
-                        layer.points[i][j] = CGPoint(x: (layer.points[i][j].x - rect.minX) * x + rect.minX, y: rect.maxY - (rect.maxY - layer.points[i][j].y) * y)
-                    }
-                }
-                
-            case .bottomLeft:
-                
-                if rect.maxX - rect.minX == 0 || (x >= 0 && rect.minX + x + spacing >= rect.maxX) {
-                    x = 1
-                } else {
-                    x = 1 - x / (rect.maxX - rect.minX)
-                }
-                if rect.maxY - rect.minY == 0 || (y <= 0 && rect.maxY + y - spacing <= rect.minY) {
-                    y = 1
-                } else {
-                    y = 1 + y / (rect.maxY - rect.minY)
-                }
-                
-                for i: Int in 0 ..< layer.points.count {
-                    for j: Int in 0 ..< layer.points[i].count {
-                        layer.points[i][j] = CGPoint(x: rect.maxX - (rect.maxX - layer.points[i][j].x) * x, y: (layer.points[i][j].y - rect.minY) * y + rect.minY)
-                    }
-                }
-                
-            case .bottomRight:
-                
-                if rect.maxX - rect.minX == 0 || (x <= 0 && rect.maxX + x - spacing <= rect.minX) {
-                    x = 1
-                } else {
-                    x = 1 + x / (rect.maxX - rect.minX)
-                }
-                if rect.maxY - rect.minY == 0 || (y <= 0 && rect.maxY + y - spacing <= rect.minY) {
-                    y = 1
-                } else {
-                    y = 1 + y / (rect.maxY - rect.minY)
-                }
-                
-                for i: Int in 0 ..< layer.points.count {
-                    for j: Int in 0 ..< layer.points[i].count {
-                        layer.points[i][j] = CGPoint(x: (layer.points[i][j].x - rect.minX) * x + rect.minX, y: (layer.points[i][j].y - rect.minY) * y + rect.minY)
-                    }
-                }
-                
-            default:
-                break
-            }
-            
-            if layer.type == .rulerFreehand || layer.type == .areaFreehand {
-                if let base = measuringBaseLayer, let lengthPerPx = measuringUtil.lengthPerPx(points: base.points[0], length: base.number) {
-                    if layer.type == .rulerFreehand {
-                        layer.number = measuringUtil.length(points: layer.points[0], lengthPerPx: lengthPerPx)
-                    } else {
-                        layer.number = measuringUtil.area(points: layer.points[0], lengthPerPx: lengthPerPx)
-                    }
-                } else {
-                    layer.number = nil
-                }
-            }
-            
-            layer.draw()
-            
-        } else if layer.type == .text {
-            let attributes = layer.text?.attributes(at: 0, longestEffectiveRange: nil, in: NSRange(location: 0, length: layer.text?.length ?? 0))
-            
-            let line = layer.text?.string.components(separatedBy: "\n") ?? []
-            var charWidth: CGFloat = 0
-            if let max = line.compactMap({ $0.count }).max() {
-                charWidth = (layer.text?.size().width ?? 0.0) / CGFloat(max)
-            } else {
-                charWidth = (attributes?[NSAttributedString.Key.font] as? UIFont)?.pointSize ?? 0.0
-            }
-            
-            switch point {
-            case .centerLeft:
-                if charWidth <= layer.points[0][1].x - (layer.points[0][0].x + delta.x) {
-                    layer.points[0][0].x += delta.x
-                } else {
-                    return
-                }
-            case .centerRight:
-                if charWidth <= (layer.points[0][1].x + delta.x) - layer.points[0][0].x {
-                    layer.points[0][1].x += delta.x
-                } else {
-                    return
-                }
-            default:
-                return
-            }
-            
-            layer.draw()
-            
-        } else if layer.type == .rulerBase || layer.type == .rulerLine {
-            
-            switch point {
-            case .bottomLeft,
-                 .start,
-                 .upperLeft:
-                layer.points[0][0].x += delta.x
-                layer.points[0][0].y += delta.y
-                
-            case .bottomRight,
-                 .end,
-                 .upperRight:
-                layer.points[0][1].x += delta.x
-                layer.points[0][1].y += delta.y
-            default:
-                break
-            }
-            
-            if layer.type == .rulerBase {
-                calcMeasuring()
-            } else if layer.type == .rulerLine {
-                if let base = measuringBaseLayer, let lengthPerPx = measuringUtil.lengthPerPx(points: base.points[0], length: base.number) {
-                    layer.number = measuringUtil.length(points: layer.points[0], lengthPerPx: lengthPerPx)
-                } else {
-                    layer.number = nil
-                }
-            }
-            
-            layer.draw()
-            
-        } else if layer.type == .rulerRect || layer.type == .areaRect {
-            switch point {
-            case .upperLeft:
-                layer.points[0][0].x += delta.x
-                layer.points[0][0].y += delta.y
-                layer.points[0][1].y += delta.y
-                layer.points[0][2].x += delta.x
-                
-            case .upperRight:
-                layer.points[0][0].y += delta.y
-                layer.points[0][1].x += delta.x
-                layer.points[0][1].y += delta.y
-                layer.points[0][3].x += delta.x
-                
-            case .bottomLeft:
-                layer.points[0][0].x += delta.x
-                layer.points[0][2].x += delta.x
-                layer.points[0][2].y += delta.y
-                layer.points[0][3].y += delta.y
-                
-            case .bottomRight:
-                layer.points[0][1].x += delta.x
-                layer.points[0][2].y += delta.y
-                layer.points[0][3].x += delta.x
-                layer.points[0][3].y += delta.y
-                
-            default:
-                break
-            }
-            
-            if let base = measuringBaseLayer, let lengthPerPx = measuringUtil.lengthPerPx(points: base.points[0], length: base.number) {
-                if layer.type == .rulerRect {
-                    layer.number = measuringUtil.length(
-                        rect: CGRect(
-                            x: layer.points[0][0].x,
-                            y: layer.points[0][0].y,
-                            width: CGFloat(fabsf(Float(layer.points[0][0].x - layer.points[0][3].x))),
-                            height: CGFloat(fabsf(Float(layer.points[0][0].y - layer.points[0][3].y)))
-                        ),
-                        lengthPerPx: lengthPerPx
-                    )
-                } else {
-                    layer.number = measuringUtil.area(
-                        rect: CGRect(
-                            x: layer.points[0][0].x,
-                            y: layer.points[0][0].y,
-                            width: CGFloat(fabsf(Float(layer.points[0][0].x - layer.points[0][3].x))),
-                            height: CGFloat(fabsf(Float(layer.points[0][0].y - layer.points[0][3].y)))
-                        ),
-                        lengthPerPx: lengthPerPx
-                    )
-                }
-            } else {
-                layer.number = nil
-            }
-            
-            layer.draw()
-            
-        } else if layer.type == .rulerPolygon || layer.type == .areaPolygon {
-            switch point {
-            case .general(let i):
-                let old = layer.points[0][i]
-                layer.points[0][i].x += delta.x
-                layer.points[0][i].y += delta.y
-                if layer.type == .areaPolygon {
-                    if measuringUtil.hasIntersection(points: layer.points[0]) {
-                        layer.points[0][i] = old
-                    }
-                }
-            default:
-                break
-            }
-            
-            if let base = measuringBaseLayer, let lengthPerPx = measuringUtil.lengthPerPx(points: base.points[0], length: base.number) {
-                if layer.type == .rulerPolygon {
-                    layer.number = measuringUtil.length(points: layer.points[0], isClose: true, lengthPerPx: lengthPerPx)
-                } else if layer.type == .areaPolygon {
-                    layer.number = measuringUtil.area(points: layer.points[0], lengthPerPx: lengthPerPx)
-                }
-            } else {
-                layer.number = nil
-            }
-            
-            layer.draw()
         }
         
         if let dic = layer.navigationPoint {
@@ -1839,64 +1575,12 @@ extension PaintView: PaintSelectNavigationViewDelegate {
                 navigationViews.filter({ $0.point?.toInt() == key }).first?.center = val
             }
         }
-        
-        if layer.type == .rulerBase || layer.type == .rulerLine || layer.type == .rulerRect || layer.type == .areaRect || layer.type == .rulerPolygon || layer.type == .areaPolygon {
-            var p: CGPoint?
-            switch point {
-            case .start:
-                p = layer.points[0][0]
-            case .end:
-                p = layer.points[0][1]
-            case .upperLeft:
-                p = layer.points[0][0]
-            case .upperRight:
-                p = layer.points[0][1]
-            case .bottomLeft:
-                p = layer.points[0][2]
-            case .bottomRight:
-                p = layer.points[0][3]
-            case .general(let i):
-                p = layer.points[0][i]
-            default:
-                break
-            }
-            if let p = p {
-                delegate?.paintView(self, willMoveLoupe: layer, point: p)
-            }
-        }
-        
         drawSelectNavigations(isRedraw: true)
     }
     
     func didDeMove(point: PaintSelectNavigationView.Point) {
         guard let layer = selectLayers?.first else {
             return
-        }
-        if layer.type == .text {
-            var width = layer.points[0][1].x - layer.points[0][0].x
-            var height = layer.points[0][1].y - layer.points[0][0].y
-            
-            let textSize = CGSize(width: layer.text?.size().width ?? 0.0, height: CGFloat.greatestFiniteMagnitude)
-            
-            if textSize.width < width {
-                layer.points[0][1].x = layer.points[0][0].x + textSize.width
-            }
-            if textSize.height < height {
-                layer.points[0][1].y = layer.points[0][0].y + textSize.height
-            }
-            width = layer.points[0][1].x - layer.points[0][0].x
-            height = layer.points[0][1].y - layer.points[0][0].y
-            
-            if let dic = layer.navigationPoint {
-                for (key, val) in dic {
-                    navigationViews.filter({ $0.point?.toInt() == key }).first?.center = val
-                }
-            }
-            
-            drawSelectNavigations(isRedraw: true)
-            
-        } else if layer.type == .rulerBase || layer.type == .rulerLine || layer.type == .rulerRect || layer.type == .rulerPolygon || layer.type == .areaRect || layer.type == .areaPolygon {
-            delegate?.paintView(self, didDeDisplayLoupe: layer)
         }
     }
 }
