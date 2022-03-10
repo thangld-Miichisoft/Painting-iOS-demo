@@ -290,7 +290,7 @@ final class PaintView: UIView {
     private var isFirstMoved: Bool = false
     private var freehandCompletedTimer: Timer?
     
-    private var isEditingText: Bool = false
+    private(set) var isEditingText: Bool = false
     
     // undo・redo
     private var undoStack: [PaintUndoObject] = [] {
@@ -372,12 +372,31 @@ final class PaintView: UIView {
         super.init(coder: aDecoder)
         backgroundColor = UIColor.clear
         clipsToBounds = true
+        initeDoubleTap()
     }
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         backgroundColor = UIColor.clear
         clipsToBounds = true
+        initeDoubleTap()
+    }
+    
+    private func initeDoubleTap() {
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(doubleTapped(_:)))
+        tapGesture.numberOfTapsRequired = 2
+        addGestureRecognizer(tapGesture)
+    }
+    
+    @objc func doubleTapped(_ gesture: UITapGestureRecognizer) {
+        // do something here
+        print("double")
+        guard paintType == .default, selectLayers?.first?.type == .text else {
+            isEditingText = false
+            return
+        }
+        isEditingText = true
+        delegate?.didEnterEditTextMode(self)
     }
     
     override func removeFromSuperview() {
@@ -429,14 +448,8 @@ final class PaintView: UIView {
                         if newLayers.count == 1 {
                             lastTouchPoint = point
                             isFirstMoved = true
-                            if oldIds.first == newLayers[0].identifier {
-                                delegate?.didEnterEditTextMode(self)
-                                isEditingText = true
-                            } else {
-                                select(layer: newLayers[0])
-                                isEditingText = false
-                            }
-
+                            cancelSelectLayers()
+                            select(layer: newLayers[0])
                         } else if !newLayers.filter({ oldIds.contains($0.identifier) }).isEmpty {
                             lastTouchPoint = point
                             isFirstMoved = true
@@ -571,11 +584,15 @@ final class PaintView: UIView {
                 } else {
                     // 移動+再描画
                     move(point: point)
-                    drawSelectNavigations()
+                    if !isEditingText {
+                        drawSelectNavigations()
+                    }
                     
                     if let layers = selectLayers {
                         if layers.count == 1 {
-                            delegate?.paintView(self, didSelectLayers: layers)
+                            if !isEditingText {
+                                delegate?.paintView(self, didSelectLayers: layers)
+                            }
                         }
                     }
                 }

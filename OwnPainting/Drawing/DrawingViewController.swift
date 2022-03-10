@@ -293,7 +293,8 @@ extension DrawingViewController: PaintViewDelegate {
             paintView.textManagementView = textManagementView
             textManagementView.widthScrollView = mainScrollView.contentSize.width
         }
-        self.paintView.editSelectTextLayer()
+        mainScrollView.isScrollEnabled = true
+        paintView.editSelectTextLayer()
     }
     
     

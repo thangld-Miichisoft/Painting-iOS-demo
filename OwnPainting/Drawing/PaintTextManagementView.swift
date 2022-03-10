@@ -248,7 +248,7 @@ final class PaintTextManagementView: UIView, UITextViewDelegate {
         isHidden = false
         
         textView.typingAttributes = attributes
-        textView.attributedText = NSAttributedString(string: layer.text?.string ?? "nene", attributes: attributes)
+        textView.attributedText = NSAttributedString(string: layer.text?.string ?? "", attributes: attributes)
         textView.frame = rect
         
         textView.becomeFirstResponder()
