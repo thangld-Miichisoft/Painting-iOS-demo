@@ -25,6 +25,8 @@ final class PaintSelectNavigationView: UIView, UIGestureRecognizerDelegate {
         case centerLeft
         case centerRight
         case general(Int)
+        case upperCenter
+        case bottomCenter
         
         func toInt() -> Int {
             switch self {
@@ -46,6 +48,10 @@ final class PaintSelectNavigationView: UIView, UIGestureRecognizerDelegate {
                 return -8
             case .general(let i):
                 return i
+            case .upperCenter:
+                return -9
+            case .bottomCenter:
+                return -10
             }
         }
         
@@ -68,6 +74,10 @@ final class PaintSelectNavigationView: UIView, UIGestureRecognizerDelegate {
                 self = .centerLeft
             } else if rawValue == -8 {
                 self = .centerRight
+            } else if rawValue == -9 {
+                self = .upperCenter
+            } else if rawValue == -10 {
+                self = .bottomCenter
             } else {
                 return nil
             }

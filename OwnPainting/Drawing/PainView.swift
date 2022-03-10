@@ -28,6 +28,7 @@ protocol PaintViewDelegate: AnyObject {
     func paintView(_ paintView: PaintView, didEndDrawing layers: [PaintLayer])
     
     func paintView(_ paintView: PaintView, didEndDrawing layer: PaintLayer, error: PaintView.PaintError)
+    func didEnterEditTextMode(_ paintView: PaintView)
 }
 
 final class PaintView: UIView {
@@ -130,15 +131,17 @@ final class PaintView: UIView {
                     layer.fontSize = textShape.fontSize
                     let style = NSMutableParagraphStyle()
                     style.alignment = .left
-                    style.lineBreakMode = .byClipping
+                    style.lineBreakMode = .byCharWrapping
                     let strokeColor = UIColor.red.cgColor
 
 
                     let dict: [NSAttributedString.Key: Any] = [
+                        NSAttributedString.Key.paragraphStyle: style,
+                        NSAttributedString.Key.kern: 0.0,
                         NSAttributedString.Key.font:  textShape.font,
-                        NSAttributedString.Key.foregroundColor: strokeColor,
+                        NSAttributedString.Key.foregroundColor: UIColor.red,
                     ]
-                    layer.text = NSAttributedString(string: text ?? "", attributes: dict)
+                    layer.text = NSAttributedString(string: text, attributes: dict)
                     layer.fillColor = UIColor.red.cgColor
                     print("add Text")
                 }else if let pen = object as? PenShape, !pen.segments.isEmpty {
@@ -287,6 +290,8 @@ final class PaintView: UIView {
     private var isFirstMoved: Bool = false
     private var freehandCompletedTimer: Timer?
     
+    private var isEditingText: Bool = false
+    
     // undo・redo
     private var undoStack: [PaintUndoObject] = [] {
         didSet {
@@ -424,8 +429,14 @@ final class PaintView: UIView {
                         if newLayers.count == 1 {
                             lastTouchPoint = point
                             isFirstMoved = true
-                            
-                            select(layer: newLayers[0])
+                            if oldIds.first == newLayers[0].identifier {
+                                delegate?.didEnterEditTextMode(self)
+                                isEditingText = true
+                            } else {
+                                select(layer: newLayers[0])
+                                isEditingText = false
+                            }
+
                         } else if !newLayers.filter({ oldIds.contains($0.identifier) }).isEmpty {
                             lastTouchPoint = point
                             isFirstMoved = true
@@ -495,7 +506,7 @@ final class PaintView: UIView {
             isFirstMoved = false
             firstTouchPoint = nil
         }
-        guard let point = location(touches: touches, with: event) else {
+        guard let point = location(touches: touches, with: event), !isEditingText else {
             return
         }
         
@@ -1568,6 +1579,70 @@ extension PaintView: PaintSelectNavigationViewDelegate {
             
             layer.draw()
             
+        } else if layer.type == .text {
+            let attributes = layer.text?.attributes(at: 0, longestEffectiveRange: nil, in: NSRange(location: 0, length: layer.text?.length ?? 0))
+            
+            let line = layer.text?.string.components(separatedBy: "\n") ?? []
+            var charWidth: CGFloat = 0
+            if let max = line.compactMap({ $0.count }).max() {
+                charWidth = (layer.text?.size().width ?? 0.0) / CGFloat(max)
+            } else {
+                charWidth = (attributes?[NSAttributedString.Key.font] as? UIFont)?.pointSize ?? 0.0
+            }
+            
+            switch point {
+            case .upperCenter:
+//                break
+                guard let font = attributes?[NSAttributedString.Key.font] as? UIFont else {
+                    return
+                }
+                let style = NSMutableParagraphStyle()
+                style.alignment = .left
+                style.lineBreakMode = .byCharWrapping
+                layer.points[0][0].y += delta.y
+                let dict: [NSAttributedString.Key: Any] = [
+                    NSAttributedString.Key.paragraphStyle: style,
+                    NSAttributedString.Key.kern: 0.0,
+                    NSAttributedString.Key.font: UIFont(name: font.fontName, size: font.pointSize - delta.y/(delta.y+layer.points[0][1].y - layer.points[0][0].y)*100),
+                    NSAttributedString.Key.foregroundColor: UIColor.red,
+                ]
+                if let string =  layer.text?.string {
+                    layer.text = NSAttributedString(string: layer.text?.string ?? "", attributes: dict)
+
+                }
+            case .bottomCenter:
+                layer.points[0][1].y += delta.y
+                guard let font = attributes?[NSAttributedString.Key.font] as? UIFont else {
+                    return
+                }
+                let style = NSMutableParagraphStyle()
+                style.alignment = .left
+                style.lineBreakMode = .byCharWrapping
+                let dict: [NSAttributedString.Key: Any] = [
+                    NSAttributedString.Key.paragraphStyle: style,
+                    NSAttributedString.Key.kern: 0.0,
+                    NSAttributedString.Key.font: UIFont(name: font.fontName, size: font.pointSize + delta.y/(delta.y+layer.points[0][1].y - layer.points[0][0].y)*100),
+                    NSAttributedString.Key.foregroundColor: UIColor.red,
+                ]
+                layer.text = NSAttributedString(string: layer.text?.string ?? "", attributes: dict)
+
+            case .centerLeft:
+                if charWidth <= layer.points[0][1].x - (layer.points[0][0].x + delta.x) {
+                    layer.points[0][0].x += delta.x
+                } else {
+                    return
+                }
+            case .centerRight:
+                if charWidth <= (layer.points[0][1].x + delta.x) - layer.points[0][0].x {
+                    layer.points[0][1].x += delta.x
+                } else {
+                    return
+                }
+            default:
+                return
+            }
+            
+            layer.draw()
         }
         
         if let dic = layer.navigationPoint {
@@ -1581,6 +1656,30 @@ extension PaintView: PaintSelectNavigationViewDelegate {
     func didDeMove(point: PaintSelectNavigationView.Point) {
         guard let layer = selectLayers?.first else {
             return
+        }
+        if layer.type == .text {
+            var width = layer.points[0][1].x - layer.points[0][0].x
+            var height = layer.points[0][1].y - layer.points[0][0].y
+            
+            let textSize = CGSize(width: layer.text?.size().width ?? 0.0, height: CGFloat.greatestFiniteMagnitude)
+            
+            if textSize.width < width {
+                layer.points[0][1].x = layer.points[0][0].x + textSize.width
+            }
+            if textSize.height < height {
+                layer.points[0][1].y = layer.points[0][0].y + textSize.height
+            }
+            width = layer.points[0][1].x - layer.points[0][0].x
+            height = layer.points[0][1].y - layer.points[0][0].y
+            
+            if let dic = layer.navigationPoint {
+                for (key, val) in dic {
+                    navigationViews.filter({ $0.point?.toInt() == key }).first?.center = val
+                }
+            }
+            
+            drawSelectNavigations(isRedraw: true)
+            
         }
     }
 }

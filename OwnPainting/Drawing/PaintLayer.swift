@@ -89,7 +89,11 @@ final class PaintLayer: CAShapeLayer {
         } else if type == .text {
             return [
                 PaintSelectNavigationView.Point.centerLeft.toInt(): CGPoint(x: points[0][0].x, y: (points[0][0].y + points[0][1].y) / 2),
-                PaintSelectNavigationView.Point.centerRight.toInt(): CGPoint(x: points[0][1].x, y: (points[0][0].y + points[0][1].y) / 2)
+                PaintSelectNavigationView.Point.centerRight.toInt(): CGPoint(x: points[0][1].x, y: (points[0][0].y + points[0][1].y) / 2),
+                PaintSelectNavigationView.Point.upperCenter.toInt(): CGPoint(x: (points[0][0].x + points[0][1].x) / 2, y: points[0][0].y),
+                PaintSelectNavigationView.Point.bottomCenter.toInt(): CGPoint(x: (points[0][0].x + points[0][1].x) / 2, y: points[0][1].y)
+
+
             ]
         }
         return nil
@@ -235,6 +239,7 @@ final class PaintLayer: CAShapeLayer {
                 return
             }
             path = textPath.cgPath
+//            self.transform = CATransform3DMakeScale(2.09, 4.88, 3.49)
             
         } else if type == .rulerBase || type == .rulerLine {
             guard points.count == 1, points[0].count == 2 else {

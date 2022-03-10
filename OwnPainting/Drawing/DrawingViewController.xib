@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="19529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="19455" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_5" orientation="landscape" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19454"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -193,7 +193,7 @@
                             <rect key="frame" x="0.0" y="364" width="896" height="50"/>
                             <subviews>
                                 <stackView opaque="NO" contentMode="scaleToFill" alignment="firstBaseline" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="yVX-xA-P7H">
-                                    <rect key="frame" x="20" y="5" width="470" height="40"/>
+                                    <rect key="frame" x="20" y="5" width="530" height="40"/>
                                     <subviews>
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4qZ-ML-R3I" userLabel="undo">
                                             <rect key="frame" x="0.0" y="0.0" width="50" height="40"/>
@@ -441,8 +441,39 @@
                                                 <constraint firstItem="shN-14-zOe" firstAttribute="leading" secondItem="d1k-7z-t11" secondAttribute="leading" id="tAO-Zg-MoO"/>
                                             </constraints>
                                         </view>
+                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="QKL-YB-r0G" userLabel="move">
+                                            <rect key="frame" x="480" y="0.0" width="50" height="40"/>
+                                            <subviews>
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="move_icon" translatesAutoresizingMaskIntoConstraints="NO" id="H79-fX-5aU">
+                                                    <rect key="frame" x="10" y="10" width="30" height="20"/>
+                                                    <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" secondItem="H79-fX-5aU" secondAttribute="height" multiplier="3/2" id="AV8-6h-Sg1"/>
+                                                    </constraints>
+                                                </imageView>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SHC-ID-U32">
+                                                    <rect key="frame" x="0.0" y="0.0" width="50" height="40"/>
+                                                    <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    <state key="normal" title="Button"/>
+                                                    <buttonConfiguration key="configuration" style="plain" title="edit"/>
+                                                    <connections>
+                                                        <action selector="editText:" destination="-1" eventType="touchUpInside" id="1d2-u9-EWe"/>
+                                                    </connections>
+                                                </button>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstAttribute="trailing" secondItem="H79-fX-5aU" secondAttribute="trailing" constant="10" id="7j4-JO-ftO"/>
+                                                <constraint firstItem="SHC-ID-U32" firstAttribute="top" secondItem="QKL-YB-r0G" secondAttribute="top" id="OIG-t7-KIR"/>
+                                                <constraint firstAttribute="bottom" secondItem="SHC-ID-U32" secondAttribute="bottom" id="X7D-qH-vsn"/>
+                                                <constraint firstAttribute="bottom" secondItem="H79-fX-5aU" secondAttribute="bottom" constant="10" id="d3A-aa-3OS"/>
+                                                <constraint firstItem="SHC-ID-U32" firstAttribute="leading" secondItem="QKL-YB-r0G" secondAttribute="leading" id="lCh-KB-EbT"/>
+                                                <constraint firstItem="H79-fX-5aU" firstAttribute="top" secondItem="QKL-YB-r0G" secondAttribute="top" constant="10" id="lFg-sF-ZuN"/>
+                                                <constraint firstAttribute="trailing" secondItem="SHC-ID-U32" secondAttribute="trailing" id="lH6-ty-I2t"/>
+                                                <constraint firstItem="H79-fX-5aU" firstAttribute="leading" secondItem="QKL-YB-r0G" secondAttribute="leading" constant="10" id="lM7-oL-okJ"/>
+                                            </constraints>
+                                        </view>
                                         <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zJh-Q8-duM">
-                                            <rect key="frame" x="470" y="-30.666666666666686" width="0.0" height="44"/>
+                                            <rect key="frame" x="530" y="-30.666666666666686" width="0.0" height="44"/>
                                             <state key="normal" title="Button"/>
                                             <buttonConfiguration key="configuration" style="plain" title="Debug Undo/Redo">
                                                 <fontDescription key="titleFontDescription" type="system" pointSize="25"/>

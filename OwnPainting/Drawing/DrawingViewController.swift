@@ -8,7 +8,7 @@
 import UIKit
 
 class DrawingViewController: UIViewController {
-
+    
     @IBOutlet weak var viewContent: UIView!
     @IBOutlet weak var mainView: UIView!
     @IBOutlet weak var viewUp: UIView!
@@ -84,6 +84,7 @@ class DrawingViewController: UIViewController {
         undoCount = 0
         redoCount = 0
         applyUndoViewState()
+        setHighlightColorButton(sender: moveButton)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -123,8 +124,27 @@ class DrawingViewController: UIViewController {
     }
     @IBAction func didSelecTextMode(_ sender: UIButton) {
         paintView.paintType = .text
+        textManagementView.widthScrollView = mainScrollView.contentSize.width
         paintView.textManagementView = textManagementView
         setHighlightColorButton(sender: sender)
+        
+//        let menu = UIMenuController.shared
+//        menu.arrowDirection = .default
+//        menu.menuItems = [
+//            UIMenuItem(title: "edit", action: #selector(editTextLayer(_:))),
+//        ]
+//
+////        menu.setTargetRect(rect, in: view)
+//
+//        // Animate the menu onto view
+////        menu.setMenuVisible(true, animated: true)
+//
+//        if #available(iOS 13.0, *) {
+//            menu.hideMenu()
+//            menu.showMenu(from: view, rect: CGRect(x: 50, y: 50, width: 100, height: 100))
+//        } else {
+//            // Fallback on earlier versions
+//        }
     }
     
     @IBAction func selectionMode(_ sender: UIButton) {
@@ -149,6 +169,14 @@ class DrawingViewController: UIViewController {
         setHighlightColorButton(sender: sender)
     }
     
+    @IBAction func editText(_ sender: Any) {
+        if paintView.textManagementView == nil {
+            paintView.textManagementView = textManagementView
+            textManagementView.widthScrollView = mainScrollView.contentSize.width
+        }
+        //
+        paintView.editSelectTextLayer()
+    }
     @IBAction func back(_ sender: UIButton) {
         dismiss(animated: true, completion: nil)
     }
@@ -194,12 +222,20 @@ class DrawingViewController: UIViewController {
 
 extension DrawingViewController: PaintViewDelegate {
     
-   
+    
     func paintView(_ paintView: PaintView, didSelectLayers: [PaintLayer]) {
+        //        if didSelectLayers.first?.type == .text {
+        ////            paintView.paintType = .text
+        //            paintView.textManagementView = textManagementView
+        //            textManagementView.widthScrollView = mainScrollView.contentSize.width
+        //            paintView.editSelectTextLayer()
+        //        }
         setHighlightColorButton(sender: deleteButton)
         showSelectedShape = true
         applyUndoViewState()
         mainScrollView.isScrollEnabled = false
+        showPaintLayerTip(paintView: paintView, layers: didSelectLayers)
+
     }
     
     func paintView(_ paintView: PaintView, didDeSelectLayers: [PaintLayer]) {
@@ -211,6 +247,8 @@ extension DrawingViewController: PaintViewDelegate {
     func paintView(_ paintView: PaintView, isTouchLayers: [PaintLayer]) {
         print(isTouchLayers)
         applyUndoViewState()
+        showPaintLayerTip(paintView: paintView, layers: isTouchLayers)
+
     }
     
     func paintView(_ paintView: PaintView, didChangeUndoStack: [PaintUndoObject]) {
@@ -250,6 +288,14 @@ extension DrawingViewController: PaintViewDelegate {
         print(layer)
         applyUndoViewState()
     }
+    func didEnterEditTextMode(_ paintView: PaintView) {
+        if paintView.textManagementView == nil {
+            paintView.textManagementView = textManagementView
+            textManagementView.widthScrollView = mainScrollView.contentSize.width
+        }
+        self.paintView.editSelectTextLayer()
+    }
+    
     
     
 }
@@ -257,6 +303,39 @@ extension DrawingViewController: PaintViewDelegate {
 extension DrawingViewController {
     @objc private func deleteLayers(_ sender: UIMenuItem) {
         paintView.removeSelectLayers()
+    }
+    
+    private func showPaintLayerTip(paintView: PaintView, layers: [PaintLayer]) {
+        guard let layer = layers.first else {
+            return
+        }
+        guard let layerFrame: CGRect = layer.path?.boundingBox else {
+            return
+        }
+        let radius = layer.type == .highlighter ? layer.lineWidth / 2 : 0
+        let offset = CGRect(x: layerFrame.origin.x - radius, y: layerFrame.origin.y - radius, width: layerFrame.size.width + radius, height: layerFrame.size.height + radius)
+        let rect = paintView.convert(offset, to: view)
+        let menu = UIMenuController.shared
+        menu.arrowDirection = .default
+        if layer.type == .text {
+            menu.menuItems = [
+                UIMenuItem(title: "edit", action: #selector(editTextLayer(_:))),
+            ]
+        }
+        
+//        menu.setTargetRect(rect, in: view)
+        
+        // Animate the menu onto view
+//        menu.setMenuVisible(true, animated: true)
+        
+        if #available(iOS 13.0, *) {
+            menu.hideMenu()
+            menu.showMenu(from: view, rect: rect)
+        } else {
+            // Fallback on earlier versions
+        }
+
+//        cell?.scrollView.isScrollEnabled = false
     }
     
     @objc private func editTextLayer(_ sender: UIMenuItem) {

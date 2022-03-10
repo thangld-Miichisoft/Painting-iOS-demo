@@ -9,7 +9,7 @@ import UIKit
 
 final class PaintTextManagementView: UIView, UITextViewDelegate {
     enum FontSize: CGFloat {
-        case s = 50
+        case s = 49.5
         case m = 100
         case l = 300
     }
@@ -19,8 +19,9 @@ final class PaintTextManagementView: UIView, UITextViewDelegate {
     private var layer_id: String = ""
     internal weak var paintView: PaintView?
     private var keyboardOffset: CGFloat?
+    var widthScrollView: CGFloat?
     
-    private var fontSize: FontSize = .s {
+    private var fontSize: UIFont? = UIFont(name: "Helvetica Neue", size: 49.5) {
         didSet {
             guard let paintView = paintView else {
                 return
@@ -29,7 +30,7 @@ final class PaintTextManagementView: UIView, UITextViewDelegate {
             guard let font = attributes[NSAttributedString.Key.font] as? UIFont else {
                 return
             }
-            guard let newFont = UIFont(name: font.fontName, size: fontSize.rawValue * paintView.zoomScale) else {
+            guard let newFont = UIFont(name: font.fontName, size: fontSize?.pointSize ?? 0.0 * paintView.zoomScale) else {
                 return
             }
             attributes[NSAttributedString.Key.font] = newFont
@@ -117,7 +118,8 @@ final class PaintTextManagementView: UIView, UITextViewDelegate {
         guard let paintView = paintView else {
             return
         }
-        let maxSize = CGSize(width: frame.size.width - textView.frame.origin.x, height: frame.size.height - textView.frame.origin.y)
+        
+        let maxSize = CGSize(width: widthScrollView ?? frame.size.width - textView.frame.origin.x, height: frame.size.height - textView.frame.origin.y)
         
         if textView.attributedText.length == 0 {
             let attributes = textView.typingAttributes
@@ -130,9 +132,9 @@ final class PaintTextManagementView: UIView, UITextViewDelegate {
             if textRect.origin.x + width <= frame.size.width {
                 textRect.size.width = width
             }
-            if textRect.origin.y + height <= frame.size.height {
-                textRect.size.height = height
-            }
+//            if textRect.origin.y + height <= frame.size.height {
+//                textRect.size.height = height
+//            }
             
             textView.frame = textRect
             
@@ -141,12 +143,14 @@ final class PaintTextManagementView: UIView, UITextViewDelegate {
 
             var textRect = NSString(string: textView.attributedText.string).boundingRect(with: maxSize, options: .usesLineFragmentOrigin, attributes: attributes, context: nil)
             textRect.origin = textView.frame.origin
+            print(textRect.size.width)
             let width = textRect.size.width + inputMargin / paintView.zoomScale
             let height = textRect.size.height + inputMargin / paintView.zoomScale
             
             if textRect.origin.x + width <= frame.size.width {
                 textRect.size.width = width
             }
+//            textRect.size.width = width
             if textRect.origin.y + height <= frame.size.height {
                 textRect.size.height = height
             }
@@ -191,7 +195,7 @@ final class PaintTextManagementView: UIView, UITextViewDelegate {
         
         isHidden = false
         
-        let font = UIFont(name: "Helvetica Neue", size: fontSize.rawValue * paintView!.zoomScale) ?? UIFont.systemFont(ofSize: fontSize.rawValue * paintView!.zoomScale, weight: .regular)
+        let font = UIFont(name: "Helvetica Neue", size: fontSize?.pointSize ?? 0.0 * paintView!.zoomScale) ?? UIFont.systemFont(ofSize: fontSize?.pointSize ?? 0.0 * paintView!.zoomScale, weight: .regular)
 
         
         layer_id = "N\(dateUtil.getJSTDateString(.DateTimeWithMilliSec_NonSeparate))"
@@ -228,21 +232,23 @@ final class PaintTextManagementView: UIView, UITextViewDelegate {
         rect.size.height += (inputMargin / paintView!.zoomScale)
         
         var attributes = layer.text?.attributes(at: 0, longestEffectiveRange: nil, in: NSRange(location: 0, length: layer.text?.length ?? 0)) ?? [:]
+        print(attributes)
         let font = attributes[NSAttributedString.Key.font] as! UIFont
         attributes[NSAttributedString.Key.font] = UIFont(name: font.fontName, size: font.pointSize * paintView!.zoomScale)
+        fontSize = font
         
-        if let f = FontSize(rawValue: font.pointSize) {
-            fontSize = f
-        } else {
-            fontSize = .l
-        }
+//        if let f = FontSize(rawValue: font.pointSize) {
+//            fontSize = f
+//        } else {
+//            fontSize = .l
+//        }
         
         layer_id = layer.identifier
         
         isHidden = false
         
         textView.typingAttributes = attributes
-        textView.attributedText = NSAttributedString(string: layer.text?.string ?? "", attributes: attributes)
+        textView.attributedText = NSAttributedString(string: layer.text?.string ?? "nene", attributes: attributes)
         textView.frame = rect
         
         textView.becomeFirstResponder()
@@ -269,7 +275,7 @@ final class PaintTextManagementView: UIView, UITextViewDelegate {
         guard let font = attributes[NSAttributedString.Key.font] as? UIFont else {
             return
         }
-        attributes[NSAttributedString.Key.font] = UIFont(name: font.fontName, size: fontSize.rawValue)
+        attributes[NSAttributedString.Key.font] = UIFont(name: font.fontName, size: fontSize?.pointSize ?? 0.0)
         
         guard let style = attributes[NSAttributedString.Key.paragraphStyle] as? NSMutableParagraphStyle else {
             return
@@ -290,13 +296,13 @@ final class PaintTextManagementView: UIView, UITextViewDelegate {
     }
     
     @objc func changeSize(_ sender: UISegmentedControl) {
-        if sender.selectedSegmentIndex == 0 {
-            fontSize = .l
-        } else if sender.selectedSegmentIndex == 1 {
-            fontSize = .m
-        } else if sender.selectedSegmentIndex == 2 {
-            fontSize = .s
-        }
+//        if sender.selectedSegmentIndex == 0 {
+//            fontSize = .l
+//        } else if sender.selectedSegmentIndex == 1 {
+//            fontSize = .m
+//        } else if sender.selectedSegmentIndex == 2 {
+//            fontSize = .s
+//        }
     }
     
     private func setupViews() {
